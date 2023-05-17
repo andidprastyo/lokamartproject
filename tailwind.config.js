@@ -7,6 +7,9 @@ module.exports = {
         "./node_modules/flowbite/**/*.js"
   ],
   theme: {
+    fontFamily:{
+        'sans':'Poppins'
+    },
     extend: {
         maxWidth:{
             '1/2' : '50%',
