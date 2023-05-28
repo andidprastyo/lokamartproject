@@ -28,3 +28,6 @@ Route::get('/about', function () {
 Route::get('/owner', function () {
     return view('owner');
 });
+Route::get('/ownerregis', function () {
+    return view('ownerregister');
+});

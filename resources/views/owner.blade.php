@@ -29,7 +29,7 @@
 </div>
 <div class="mt-20 mb-10 mx-auto text-center">
     <h1 class="text-2xl font-bold">Our Owner UMKM</h1>
-    <h1 class="text-xl font-medium">Hi, this is our Owner UMK</h1>
+    <h1 class="text-xl font-medium">Hi, this is our Owner UMKM</h1>
 </div>
 <div class="grid mb-32 grid-cols-4 gap-[5rem] mx-auto">
     <img class="w-48 h-[275px]" src="{{asset('img/owner/1.png')}}" alt="">
