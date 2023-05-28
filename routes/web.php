@@ -25,3 +25,6 @@ Route::get('/home', function () {
 Route::get('/about', function () {
     return view('about');
 });
+Route::get('/owner', function () {
+    return view('owner');
+});
