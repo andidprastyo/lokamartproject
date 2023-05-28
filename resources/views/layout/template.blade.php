@@ -64,9 +64,20 @@
       <div class="ml-8 mt-5">
         <a href=""><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>
       </div>
-      <div class="ml-8 mt-5">
-        <a href=""><img src="{{asset('img/profile-circle.svg')}}" alt=""></a>
+
+      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-medium rounded-lg text-sm px-8 mt-5 text-center inline-flex items-center " type="button"> <img src="{{asset('img/profile-circle.svg')}}" alt=""></button>
+      <!-- Dropdown menu -->
+      <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li>
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit Profile</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign Out</a>
+            </li>
+          </ul>
       </div>
+
     </div>
   </div>
 </nav>
@@ -74,9 +85,6 @@
   <div class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto my-auto">
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Home</a>
-    </div>
-    <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">Shop</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">About</a>
