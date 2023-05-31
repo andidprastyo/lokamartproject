@@ -30,11 +30,10 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        User::create($request->validated());
-        $request->user()->fill([
-            'password' => Hash::make($request->newPassword)
-        ])->save();
-        dd($request);
+        $data = $request->validated();
+        $data['password'] = Hash::make($request->password);
+        User::create($data);
+        // User::create($request->validated());
     }
 
     /**
