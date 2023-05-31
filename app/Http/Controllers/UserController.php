@@ -33,7 +33,8 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($request->password);
         User::create($data);
-        // User::create($request->validated());
+        
+        return redirect()->route('login');
     }
 
     /**
