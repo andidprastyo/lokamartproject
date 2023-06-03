@@ -37,3 +37,9 @@ Route::get('/editprofile', function () {
 Route::get('/product', function () {
     return view('product');
 });
+Route::get('/wishlistempty', function () {
+    return view('wishlistempty');
+});
+Route::get('/cartempty', function () {
+    return view('cartempty');
+});
