@@ -43,3 +43,9 @@ Route::get('/wishlistempty', function () {
 Route::get('/cartempty', function () {
     return view('cartempty');
 });
+Route::get('/ordercomplete', function () {
+    return view('ordercomplete');
+});
+Route::get('/cantfindpage', function () {
+    return view('cantfindpage');
+});
