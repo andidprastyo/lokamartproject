@@ -30,3 +30,6 @@ function showPassword() {
       y.innerHTML = '<i style="font-size: 16px" class="bx bxs-show"></i>';
     }
   }
+function hoverstar1(){
+
+}

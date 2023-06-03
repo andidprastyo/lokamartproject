@@ -34,3 +34,6 @@ Route::get('/ownerregis', function () {
 Route::get('/editprofile', function () {
     return view('editprofile');
 });
+Route::get('/product', function () {
+    return view('product');
+});

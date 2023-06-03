@@ -24,7 +24,7 @@
                             placeholder="" required>
                     </div>
                 </div>
-                <div class="mb-6 max-w-sm">
+                <div class="mb-6 w-[25.5rem]">
                     <label for="email"
                         class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email</label>
                     <input type="email" id="email"

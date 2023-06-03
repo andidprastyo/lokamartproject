@@ -235,5 +235,8 @@
     </div>
 
 </div>
+<form class="mx-10 my-[5rem] flex bg-yellow-500">
+    <div></div>
+</form>
 
 @endsection
