@@ -19,6 +19,16 @@ Route::get('/', function () {
     return view('homepage');
 })->name('home');
 
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/home', function () {
+        return view('homepage', ['users' => User::get(),]);
+    });
+});
+
+Route::get('/login', function () {
+    return view('login');
+});
+
 Route::post('/login', [LoginController::class, 'authenticate']
 )->name('login');
 
