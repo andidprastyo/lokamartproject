@@ -67,7 +67,7 @@
 
       <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-medium rounded-lg text-sm px-8 mt-5 text-center inline-flex items-center " type="button"> 
         <img src="{{asset('img/profile-circle.svg')}}" alt="">
-        <p>Hi, {{ auth()->user()->name }}</p>
+        Hi,{{ auth()->user()->name }}
       </button>
       <!-- Dropdown menu -->
       <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
