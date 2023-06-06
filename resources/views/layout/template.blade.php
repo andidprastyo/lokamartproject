@@ -66,6 +66,10 @@
       </div>
 
       <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-medium rounded-lg text-sm px-8 mt-5 text-center inline-flex items-center " type="button"> 
+        @guest
+      <li><a href="{{ route('login') }}">Login</a></li>
+      <li><a href="{{ route('register') }}">Register</a></li>
+        @else
         <img src="{{asset('img/profile-circle.svg')}}" alt="">
         Hi,{{ auth()->user()->name }}
       </button>
@@ -76,10 +80,17 @@
               <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit Profile</a>
             </li>
             <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign Out</a>
+              <a href="{{ route('logout') }}"
+              onclick="event.preventDefault();
+                       document.getElementById('logout-form').submit();" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign Out</a>
+                       <form id="logout-form" action="/logout" method="POST"
+                       style="display: none;">.
+                       @csrf
+                   </form>
             </li>
           </ul>
       </div>
+      @endguest
 
     </div>
   </div>
@@ -87,13 +98,13 @@
 <nav class="bg-white z-40 drop-shadow-lg h-10 border-y-2 pt-1 border-gray-200">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto my-auto">
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">Home</a>
+      <a href="{{ route('home') }}">Home</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">About</a>
+      <a href="{{ route('about') }}">About</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">Owner UMKM</a>
+      <a href="{{ route('owner') }}">Owner UMKM</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Seller Centre</a>
