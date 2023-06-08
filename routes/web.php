@@ -49,3 +49,12 @@ Route::get('/ordercomplete', function () {
 Route::get('/cantfindpage', function () {
     return view('cantfindpage');
 });
+Route::get('/editproduct', function () {
+    return view('editproduct');
+});
+Route::get('/wishlist', function () {
+    return view('wishlist');
+});
+Route::get('/cart', function () {
+    return view('cart');
+});

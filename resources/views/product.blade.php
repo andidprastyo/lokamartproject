@@ -85,14 +85,14 @@
                         </div>
                     </div> --}}
                     <div class="rating-box my-3 items-center">
-                        <div class="stars gap-[10px] flex">
-                          <i class="fa-solid fa-star cursor-pointer text-gray-300 active:text-yellow-500"></i>
-                          <i class="fa-solid fa-star cursor-pointer text-gray-300 active:text-yellow-500"></i>
-                          <i class="fa-solid fa-star cursor-pointer text-gray-300 active:text-yellow-500"></i>
-                          <i class="fa-solid fa-star cursor-pointer text-gray-300 active:text-yellow-500"></i>
-                          <i class="fa-solid fa-star cursor-pointer text-gray-300 active:text-yellow-500"></i>
+                        <div class="stars gap-[10px]  flex">
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
+                          <i class="fa-solid fa-star"></i>
                         </div>
-                    </div>
+                      </div>
                     <textarea id="message" rows="4" class="block p-2.5 resize-none text-md text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-[15rem]" placeholder="Write your review..."></textarea>
                     <input type="text" id="nama" class="w-[15rem] my-3 border-gray-300 bg-gray-50 rounded-lg text-md" placeholder="Name">
                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg text-lg font-bold px-5 py-2.5 mr-2 mb-2 ">Submit Review</button>

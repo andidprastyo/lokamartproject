@@ -32,7 +32,7 @@ function showPassword() {
   }
 
 // ---- ---- Const ---- ---- //
-const stars = document.querySelectorAll('.stars.gap-[10px].flex i');
+const stars = document.querySelectorAll('.stars i');
 const starsNone = document.querySelector('.rating-box');
 
 // ---- ---- Stars ---- ---- //
