@@ -58,3 +58,6 @@ Route::get('/wishlist', function () {
 Route::get('/cart', function () {
     return view('cart');
 });
+Route::get('/addproduct', function () {
+    return view('addproduct');
+});
