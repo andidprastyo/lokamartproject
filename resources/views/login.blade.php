@@ -24,7 +24,7 @@
         </div>
         <h2 class="text-center my-3 text-xl text-gray-900/50 dark:text-gray-300">or</h2>
         <div class=" text-center">
-            <a href="" class="text-xl text-gray-900/50 dark:text-gray-300 underline underline-offset-4">Create new account</a>
+            <a href="{{ route('register') }}" class="{{(Route::currentRouteName() == 'register') }}" class="text-xl text-gray-900/50 dark:text-gray-300 underline underline-offset-4">Create new account</a>
         </div>
       </form>
     </div>
