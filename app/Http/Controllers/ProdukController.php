@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\ProdukRequest;
+use App\Models\Produk;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,19 +27,18 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(ProdukRequest $request)
     {
         $data = $request->validated();
-        $data['password'] = Hash::make($request->password);
-        User::create($data);
-        
-        return redirect()->route('login');
+        $imagePath = $data->file('image')->store('public/img/produk');
+        $data->image = $imagePath;
+        Produk::create($data);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(Produk $produk)
     {
         //
     }
@@ -47,7 +46,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(Produk $produk)
     {
         //
     }
@@ -55,22 +54,22 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, User $user)
+    public function update(ProdukRequest $request, Produk $produk)
     {
         $data = $request->validated();
-        $user = User::findOrFail($data);
-        $user->update($user);
+        $produk = Produk::findOrFail($data);
+        $produk->update($produk);
 
-        // Set the default role
-        $user->role = 'owner'; // Assuming 'owner' is the default role
-        $user->save();
+        $imagePath = $data->file('image')->store('public/img/produk');
+        $data->image = $imagePath;
+        $produk->save();
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy(Produk $produk)
     {
-        $user->delete();
+        $produk->delete();
     }
 }
