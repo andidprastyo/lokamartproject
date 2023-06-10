@@ -16,6 +16,14 @@ module.exports = {
         }
     },
   },
+  variants: {
+    extend: {
+      /* ... */
+    },
+    /* Apply group-hover variant to textColor */
+    textColor: ['group-hover'],
+    /* ... */
+  },
   plugins: [
     require('flowbite/plugin'),
     ],

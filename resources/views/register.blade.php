@@ -18,9 +18,9 @@
                             placeholder="" required>
                     </div>
                 </div>
-                <div class="mb-6 max-w-sm">
+                <div class="mb-6 w-[25.5rem]">
                     <label for="email"
-                        class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email</label>
+                        class="after:content-['*'] after:ml-0.5 after:text-red-500 block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email</label>
                     <input type="email" id="email"
                         class="form-control @error('last-name') is-invalid @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="" required>
                 </div>

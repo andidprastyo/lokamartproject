@@ -1,0 +1,19 @@
+ .rating-box{
+    margin-top: 5px;
+    margin-bottom: 5px;
+ }
+  .rating-box .stars {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .stars i {
+    font-size: 15px;
+    color: #b5b8b1;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .stars i.active {
+    color: #ffb851;
+    transform: scale(1.2);
+  }

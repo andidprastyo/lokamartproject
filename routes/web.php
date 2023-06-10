@@ -34,4 +34,3 @@ Route::get('/owner', function () {
 })->name('owner');
 Route::get('/ownerregis', function () {
     return view('ownerregister');
-})->name('ownerregister');
