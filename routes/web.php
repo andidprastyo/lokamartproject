@@ -21,8 +21,9 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', function () {
-        return view('homepage', ['users' => User::get(), compact('user')]);
+        return view('homepage', ['users' => User::get(),]);
     });
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
 // Route::get('/home', [HomeController::class, 'index'])
@@ -32,7 +33,7 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::post('/login', [LoginController::class, 'authenticate']
+Route::post('/login', [LoginController::class, 'login']
 )->name('login');
 
 Route::get('/register', function () {
