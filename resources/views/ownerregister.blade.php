@@ -1,7 +1,8 @@
 @extends('layout.auth')
 
 @section('content')
-    <form class="container mt-10 mx-auto py-6 px-6 max-w-6xl lg:max-w-4xl border rounded-lg">
+    <form class="container mt-10 mx-auto py-6 px-6 max-w-6xl lg:max-w-4xl border rounded-lg" method="POST" action="{{route('owner-in')}}">
+        @csrf
         <div class="flex justify-between items-center">
             <div class="flex flex-col">
                 <div class="mb-6 justify-center">
@@ -13,16 +14,16 @@
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">
                             Name</label>
                         <input type="text" id="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="" required>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
+                            placeholder="">
                     </div>
                 </div>
                 <div class="mb-6 max-w-sm">
                     <label for="email"
                         class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email</label>
                     <input type="email" id="email"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="" required>
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                        placeholder="">
                 </div>
                 <div class="flex">
                     <div class="mb-2">
@@ -32,8 +33,7 @@
                                     style="font-size: 16px" class='bx bxs-show'></i></button>
                         </label>
                         <input type="password" id="password"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="" required>
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
                     </div>
                     <div class="mb-2 ml-6">
                         <label for="confirm-password"
@@ -45,6 +45,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="" required>
                     </div>
+                    <input type="hidden" name="role" value="owner">
                 </div>
             </div>
             <div class="max-w-[50%]">

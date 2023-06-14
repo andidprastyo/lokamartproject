@@ -2,11 +2,13 @@
 @section('content')
     <div class="mt-20 ml-20 flex flex-col">
         <span class="text-3xl mb-3 font-bold">Shopping Cart</span>
+        @if (!empty($pesanan))
+        <?php $no = 1;?>
         <span class="mb-5">There are <span class="text-green-500">3 Product </span>in your cart</span>
         <div class="flex mb-8">
             <div class="flex flex-col">
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="p-4">
@@ -35,7 +37,9 @@
                                 </th>
                             </tr>
                         </thead>
+                        
                         <tbody>
+                            @foreach ($detail_pesanan as $dp)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td class="w-4 p-4">
                                     <div class="flex items-center">
@@ -44,121 +48,44 @@
                                     </div>
                                 </td>
                                 <td class="w-32 p-4">
-                                    <img src="{{asset('img/produk.png')}}" alt="Rengginang">
+                                    @php
+                                    $imgLink = str_replace('public','storage',$dp->produk->gambar_produk,);
+                
+                                    @endphp
+                                    <img src="{{asset($imgLink)}}" alt="">
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                     <div class="flex flex-col">
-                                        <span class="text-lg ">Rengginang</span>
-                                        <span class="text-xs ">Owner : Kurapika</span>
+                                        <span class="text-lg ">{{$dp->produk->nama_produk}}</span>
+                                        <span class="text-xs ">Owner: {{ $owner[$loop->iteration - 1]->name }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
+                                    {{$dp->produk->harga_produk}}
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3">
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                                    <div class="flex items-center space-x-3" id="quantity">
+                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" id="buttonUp">
                                             <span class="sr-only">Quantity button</span>
                                             <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                                         </button>
                                         <div>
-                                            <input type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1" required>
+                                            <input type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1" required min="1" max="1000">
                                         </div>
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" id="buttonDown">
                                             <span class="sr-only">Quantity button</span>
                                             <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                                         </button>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
+                                    {{$pesanan->total}}
                                 </td>
                                 <td class="px-6 py-4">
                                     <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
                                 </td>
                             </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <td class="w-32 p-4">
-                                    <img src="{{asset('img/produk.png')}}" alt="Rengginang">
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    <div class="flex flex-col">
-                                        <span class="text-lg ">Rengginang</span>
-                                        <span class="text-xs ">Owner : Kurapika</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3">
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                        <div>
-                                            <input type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1" required>
-                                        </div>
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-                                </td>
-                            </tr>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <td class="w-32 p-4">
-                                    <img src="{{asset('img/produk.png')}}" alt="Rengginang">
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    <div class="flex flex-col">
-                                        <span class="text-lg ">Rengginang</span>
-                                        <span class="text-xs ">Owner : Kurapika</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3">
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                        <div>
-                                            <input type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1" required>
-                                        </div>
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    $599
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-                                </td>
-                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -178,6 +105,40 @@
         </div>
 
 
-
+@endif
     </div>
 @endsection
+{{-- <script>
+        // jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    $.('#quantity').each(function() {
+      var spinner = $.(this),
+        input = $.('#first_product'),
+        btnUp = $.('#buttonUp'),
+        btnDown = $.('#buttonDown'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+        spinner.find("#first_product").val(newVal);
+        spinner.find("#first_product").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("#first_product").val(newVal);
+        spinner.find("#first_product").trigger("change");
+      });
+
+    });
+</script> --}}

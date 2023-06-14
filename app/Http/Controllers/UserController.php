@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Request;
 use App\Models\User;
-use Illuminate\Http\Request;
+use GuzzleHttp\Psr7\Request as Psr7Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class UserController extends Controller
 {
@@ -30,10 +33,25 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $data = $request->validated();
+        $data = new User;
+        $data->name = $request->input('name');
+        $data->email = $request->input('email');
+        $data->role = $request->input('role', 'user');
+        $data->password = $request->input('password');
         $data['password'] = Hash::make($request->password);
-        User::create($data);
-        
+        $data->save();
+        return redirect()->route('login');
+    }
+
+    public function storeOwner(UserRequest $request)
+    {
+        $data = new User;
+        $data->name = $request->input('name');
+        $data->email = $request->input('email');
+        $data->role = $request->input('role', 'owner');
+        $data->password = $request->input('password');
+        $data['password'] = Hash::make($request->password);
+        $data->save();
         return redirect()->route('login');
     }
 
@@ -56,9 +74,19 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        // $user = User::find($user);
+        // if (!$user) {
+        //     // Mengembalikan respons jika pengguna tidak ditemukan
+        //     $data = $request->validated();
+        //     User::create($data);
+        // }
+        // $user->update([
+        //     'role' => 'owner'
+        // ]);
+
+        // Set the default role
     }
 
     /**
@@ -66,6 +94,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
     }
 }

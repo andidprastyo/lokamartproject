@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\KategoriController;
+use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -15,15 +19,26 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('homepage');
-})->name('home');
+Route::get('/', [ProdukController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', function () {
         return view('homepage', ['users' => User::get(),]);
     });
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/home', [ProdukController::class, 'index'])->name('home');
+    Route::post('/pesan/{id}', [OrderController::class, 'pesan']);
+    Route::get('/cart', [OrderController::class, 'keranjang']);
+    // Route::get('/cart', function(){
+    //     return view('cart');
+    // });
+    Route::delete('/keranjang/{id}', [OrderController::class, 'delete']);
+    Route::post('check-out',[OrderController::class, 'checkout']);
+    Route::get('/pay',[OrderController::class, 'pay'])->name('pay');
+    Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
+    Route::get('/addproduct', [KategoriController::class, 'index']);
+    Route::post('/addproduct',[ProdukController::class,'store']
+    )->name('addproduct');
 });
 
 // Route::get('/home', [HomeController::class, 'index'])
@@ -54,4 +69,6 @@ Route::get('/owner', function () {
 Route::get('/ownerregis', function () {
     return view('ownerregister');
 })->name('ownerregister');
+
+Route::post('/ownerregis',[UserController::class,'storeOwner'])->name('owner-in');
 
