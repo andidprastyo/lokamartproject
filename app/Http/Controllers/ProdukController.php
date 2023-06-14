@@ -51,7 +51,7 @@ class ProdukController extends Controller
         // Produk::create($data);
         $data = new Produk;
         $data->id_owner = Auth::user()->id;
-        $data->id_kategori = $request->input('id_kategori');
+        $data->id_kategori = $request->input('kategori');
         $data->nama_produk = $request->input('nama_produk');
         $data->desk_produk = $request->input('desk_produk');
         $data->stok_produk = $request->input('stok_produk');
