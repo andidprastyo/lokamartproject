@@ -53,5 +53,3 @@ Route::get('/owner', function () {
 
 Route::get('/ownerregis', function () {
     return view('ownerregister');
-})->name('ownerregister');
-

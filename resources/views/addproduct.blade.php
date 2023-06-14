@@ -8,6 +8,20 @@
                 <input type="text" id="name"
                     class="bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     placeholder="Product Name" required>
+
+                    <div class="relative  inline-flex">
+                        <input type="radio" id="option1" name="dropdown" value="Foods" class="sr-only">
+                        <input type="radio" id="option2" name="dropdown" value="Drinks" class="sr-only">
+
+                        <div class="relative">
+                          <select class="appearance-none w-96 bg-white border border-blue-300 hover:border-blue-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" selected disabled>Select Category</option>
+                            <option value="Foods">Foods</option>
+                            <option value="Drinks">Drinks</option>
+                          </select>
+                        </div>
+                      </div>
+
                 <input type="number" id="stock"
                     class=" bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 appearance-none"
                     placeholder="Stock" required>
