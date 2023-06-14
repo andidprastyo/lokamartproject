@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('shipper', function (Blueprint $table) {
             $table->id();
             $table->string('nama_shipper');
+            $table->timestamps();
         });
     }
 

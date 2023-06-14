@@ -126,7 +126,7 @@
     @yield('content')
 
 
-<footer class="bg-amber-400 relative bottom-0 w-full">
+<footer class="w-full bg-amber-400 relative bottom-0 w-full">
   <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
       <div class="md:flex">
         <div class="pl-20 mt-10 mb-6">
@@ -238,6 +238,7 @@
   </div>
 </footer>
 <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 </body>
 
 </html>
