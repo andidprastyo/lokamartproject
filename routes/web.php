@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,64 +15,41 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
+    return view('homepage');
+})->name('home');
+
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::get('/home', function () {
+        return view('homepage', ['users' => User::get(),]);
+    });
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+});
+
+// Route::get('/home', [HomeController::class, 'index'])
+// ->name('home');
+
+Route::get('/login', function () {
     return view('login');
 });
+
+Route::post('/login', [LoginController::class, 'login']
+)->name('login');
+
 Route::get('/register', function () {
     return view('register');
-});
-Route::get('/home', function () {
-    return view('homepage');
-});
+})->name('register');
+
+Route::post('/register',[UserController::class,'store']
+)->name('register-in');
+
 Route::get('/about', function () {
     return view('about');
-});
+})->name('about');
+
 Route::get('/owner', function () {
     return view('owner');
-});
+})->name('owner');
+
 Route::get('/ownerregis', function () {
     return view('ownerregister');
-});
-Route::get('/editprofile', function () {
-    return view('editprofile');
-});
-Route::get('/product', function () {
-    return view('product');
-});
-Route::get('/wishlistempty', function () {
-    return view('wishlistempty');
-});
-Route::get('/cartempty', function () {
-    return view('cartempty');
-});
-Route::get('/ordercomplete', function () {
-    return view('ordercomplete');
-});
-Route::get('/cantfindpage', function () {
-    return view('cantfindpage');
-});
-Route::get('/editproduct', function () {
-    return view('editproduct');
-});
-Route::get('/wishlist', function () {
-    return view('wishlist');
-});
-Route::get('/cart', function () {
-    return view('cart');
-});
-Route::get('/addproduct', function () {
-    return view('addproduct');
-});
-Route::get('/historipesanan', function () {
-    return view('historipesanan');
-});
-Route::get('/admincustomer', function () {
-    return view('admincustomer');
-});
-Route::get('/adminowner', function () {
-    return view('adminowner');
-});
-Route::get('/adminorder', function () {
-    return view('adminorder');
-});
