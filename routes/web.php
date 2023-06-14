@@ -61,3 +61,15 @@ Route::get('/cart', function () {
 Route::get('/addproduct', function () {
     return view('addproduct');
 });
+Route::get('/historipesanan', function () {
+    return view('historipesanan');
+});
+Route::get('/admincustomer', function () {
+    return view('admincustomer');
+});
+Route::get('/adminowner', function () {
+    return view('adminowner');
+});
+Route::get('/adminorder', function () {
+    return view('adminorder');
+});

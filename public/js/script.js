@@ -47,3 +47,19 @@ stars.forEach((star, index1) => {
   });
 });
 
+const dropdown = document.querySelector('select');
+const radioInputs = document.querySelectorAll('input[type="radio"]');
+
+// Set initial placeholder text
+dropdown.addEventListener('change', (event) => {
+  const selectedOption = event.target.value;
+  dropdown.options[0].text = selectedOption;
+});
+
+// Update placeholder text when a radio input is clicked
+radioInputs.forEach((radioInput) => {
+  radioInput.addEventListener('click', (event) => {
+    const selectedOption = event.target.value;
+    dropdown.options[0].text = selectedOption;
+  });
+});

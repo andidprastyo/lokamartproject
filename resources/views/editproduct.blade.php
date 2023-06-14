@@ -76,6 +76,9 @@
                         Product Name
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Category
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Stock
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -96,6 +99,9 @@
                     </td>
                     <td class="px-6 py-4">
                         Rengginang
+                    </td>
+                    <td class="px-6 py-4">
+                        Foods
                     </td>
                     <td class="px-6 py-4">
                         15
@@ -121,6 +127,9 @@
                         Rengginang
                     </td>
                     <td class="px-6 py-4">
+                        Foods
+                    </td>
+                    <td class="px-6 py-4">
                         15
                     </td>
                     <td class="px-6 py-4">
@@ -142,6 +151,9 @@
                     </td>
                     <td class="px-6 py-4">
                         Rengginang
+                    </td>
+                    <td class="px-6 py-4">
+                        Foods
                     </td>
                     <td class="px-6 py-4">
                         15
@@ -167,6 +179,9 @@
                         Rengginang
                     </td>
                     <td class="px-6 py-4">
+                        Foods
+                    </td>
+                    <td class="px-6 py-4">
                         15
                     </td>
                     <td class="px-6 py-4">
@@ -188,6 +203,9 @@
                     </td>
                     <td class="px-6 py-4">
                         Rengginang
+                    </td>
+                    <td class="px-6 py-4">
+                        Foods
                     </td>
                     <td class="px-6 py-4">
                         15
