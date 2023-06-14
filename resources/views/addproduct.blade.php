@@ -15,7 +15,7 @@
                         <select
                             class="appearance-none w-96 bg-white border border-blue-300 hover:border-blue-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                             name="kategori" id="kategori">
-                            <option value="">Pilih Kategori</option>
+                            <option value="" >Pilih Kategori</option>
                             {{-- Default --}}
                             @foreach ($kategori as $ktr)
                             <option value="{{ $ktr->id }}">{{ $ktr->nama_kategori }}</option>
