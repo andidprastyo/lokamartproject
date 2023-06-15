@@ -48,7 +48,8 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Add Product</button>
+            <a href={{ route('produk.create') }}>
+            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Add Product</button></a>
         </div>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-white uppercase bg-blue-700">
@@ -77,24 +78,28 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($produk as $index => $product)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-4">
-                        1
+                        {{ $index + 1 }}
                     </td>
                     <td class="px-6 py-4">
-                        <img class="w-24 h-24 rounded-lg" src="{{asset('img/produk.png')}}" alt="">
+                        @php
+                        $imgLink = str_replace('public','storage',$product->gambar_produk,);
+                        @endphp
+                        <img class="w-24 h-24 rounded-lg" src="{{asset($imgLink)}}" alt="">
                     </td>
                     <td class="px-6 py-4">
-                        Rengginang
+                        {{ $product->nama_produk }}
                     </td>
                     <td class="px-6 py-4">
-                        Foods
+                        {{ $product->kategori->nama_kategori }}
                     </td>
                     <td class="px-6 py-4">
-                        15
+                        {{ $product->stok_produk }}
                     </td>
                     <td class="px-6 py-4">
-                        $12.00
+                        {{ $product->harga_produk }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex">
@@ -103,111 +108,7 @@
                         </div>
                     </td>
                 </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4">
-                        2
-                    </td>
-                    <td class="px-6 py-4">
-                        <img class="w-24 h-24 rounded-lg" src="{{asset('img/produk.png')}}" alt="">
-                    </td>
-                    <td class="px-6 py-4">
-                        Rengginang
-                    </td>
-                    <td class="px-6 py-4">
-                        Foods
-                    </td>
-                    <td class="px-6 py-4">
-                        15
-                    </td>
-                    <td class="px-6 py-4">
-                        $12.00
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex">
-                            <button type="button" class="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit</button>
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4">
-                        3
-                    </td>
-                    <td class="px-6 py-4">
-                        <img class="w-24 h-24 rounded-lg" src="{{asset('img/produk.png')}}" alt="">
-                    </td>
-                    <td class="px-6 py-4">
-                        Rengginang
-                    </td>
-                    <td class="px-6 py-4">
-                        Foods
-                    </td>
-                    <td class="px-6 py-4">
-                        15
-                    </td>
-                    <td class="px-6 py-4">
-                        $12.00
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex">
-                            <button type="button" class="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit</button>
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4">
-                        4
-                    </td>
-                    <td class="px-6 py-4">
-                        <img class="w-24 h-24 rounded-lg" src="{{asset('img/produk.png')}}" alt="">
-                    </td>
-                    <td class="px-6 py-4">
-                        Rengginang
-                    </td>
-                    <td class="px-6 py-4">
-                        Foods
-                    </td>
-                    <td class="px-6 py-4">
-                        15
-                    </td>
-                    <td class="px-6 py-4">
-                        $12.00
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex">
-                            <button type="button" class="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit</button>
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <td class="px-6 py-4">
-                        5
-                    </td>
-                    <td class="px-6 py-4">
-                        <img class="w-24 h-24 rounded-lg" src="{{asset('img/produk.png')}}" alt="">
-                    </td>
-                    <td class="px-6 py-4">
-                        Rengginang
-                    </td>
-                    <td class="px-6 py-4">
-                        Foods
-                    </td>
-                    <td class="px-6 py-4">
-                        15
-                    </td>
-                    <td class="px-6 py-4">
-                        $12.00
-                    </td>
-                    <td class="px-6 py-4">
-                        <div class="flex">
-                            <button type="button" class="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Edit</button>
-                            <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</button>
-                        </div>
-                    </td>
-                </tr>
-
+                @endforeach
             </tbody>
         </table>
     </div>

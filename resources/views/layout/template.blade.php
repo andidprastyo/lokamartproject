@@ -110,7 +110,7 @@
       <a href="{{ route('owner') }}">Owner UMKM</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">Seller Centre</a>
+      <a href="{{ route('list') }}">Seller Centre</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Terms & Conditions</a>

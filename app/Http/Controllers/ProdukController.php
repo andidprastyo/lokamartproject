@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Http\Requests\ProdukRequest;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stringable;
@@ -19,11 +20,11 @@ class ProdukController extends Controller
     {
         if ($request->has('search')) {
             // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
-            $produk =  Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('user')
+            $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('user')
             ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->get();
             // ->paginate(20);
         } else {
-            $produk =  Produk::all();
+            $produk = Produk::all();
             // $produk =  Produk::paginate(20);
         }
         return view('homepage',compact(['produk']));
@@ -34,7 +35,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        return view('addproduct');
+        $kategori = Kategori::all();
+        return view('addproduct', compact('kategori'));
     }
 
     /**
@@ -103,19 +105,18 @@ class ProdukController extends Controller
     public function update(ProdukRequest $request, Produk $produk)
     {
         $data = $request->validated();
-        if($request->file('image')){
-            $data->gambar_produk = $request->file('image')->store('public/img/produk');
+        if($request->file('gambar_produk')){
+            $data['gambar_produk'] = $request->file('gambar_produk')->store('public/img/produk');
         }
 
         // $data->gambar_produk = $imagePath;
-        $data->slug = Str::slug($data['nama_produk']);
-        $produk->flll($data);
-        $produk->save();
+        $data['slug'] = Str::slug($data['nama_produk']);
+        $produk->update($data);
 
         // $imagePath = $data->file('image')->store('public/img/produk');
         // $data->image = $imagePath;
         // $produk->save();
-        return view('homepage');
+        return redirect()->route('produk.index');
     }
 
     /**
@@ -127,6 +128,7 @@ class ProdukController extends Controller
     }
 
     public function list(Produk $produk){
-        return view('listproduk', compact('produk'));
+        $produk = Produk::where('id_owner', Auth::user()->id)->get();
+        return view('listproduct', compact('produk'));
     }
 }

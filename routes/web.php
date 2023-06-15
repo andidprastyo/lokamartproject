@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/addproduct', [KategoriController::class, 'index']);
     Route::resource('produk', ProdukController::class);
     Route::resource('user', UserController::class);
+    Route::get('/listproduk', [ProdukController::class, 'list'])->name('list');
 });
 
 // Route::get('/home', [HomeController::class, 'index'])
