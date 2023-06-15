@@ -37,21 +37,16 @@ const starsNone = document.querySelector('.rating-box');
 
 // ---- ---- Stars ---- ---- //
 stars.forEach((star, index1) => {
-star.addEventListener('click', () => {
-  stars.forEach((star, index2) => {
-    // ---- ---- Active Star ---- ---- //
-    index1 >= index2
-      ? star.classList.add('active')
-      : star.classList.remove('active');
+  star.addEventListener('click', () => {
+    stars.forEach((star, index2) => {
+      // ---- ---- Active Star ---- ---- //
+      index1 >= index2
+        ? star.classList.add('active')
+        : star.classList.remove('active');
+    });
   });
 });
-});
 
-const dropdown = document.querySelector('select');
-const radioInputs = document.querySelectorAll('input[type="radio"]');
-
-// Set initial placeholder text
-// dropdown.addEventListener('change', (event) => {
-// const selectedOption = event.target.value;
-// dropdown.options[0].text = selectedOption;
-// });
+// const dropdown = document.querySelector('select');
+// const radioInputs = document.querySelectorAll('input[type="radio"]');
+UserReqUserReqUserReq
