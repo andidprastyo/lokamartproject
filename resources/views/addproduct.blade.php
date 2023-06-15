@@ -13,7 +13,7 @@
                     <div class="relative">
                         <select
                             class="appearance-none w-96 bg-white border border-blue-300 hover:border-blue-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                            name="kategori" id="kategori">
+                            name="id_kategori" id="kategori">
                             <option value="" selected disabled>Pilih Kategori</option>
                             @foreach ($kategori as $ktr)
                             <option value="{{ $ktr->id }}">{{ $ktr->nama_kategori }}</option>
@@ -32,7 +32,7 @@
                         name="desk_produk" placeholder="Deskripsi produk"></textarea>
                     <input
                         class="block w-full text-sm text-gray-900 border border-blue-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                        aria-describedby="user_avatar_help" id="user_avatar" type="file" name="image">
+                        aria-describedby="user_avatar_help" id="user_avatar" type="file" name="gambar_produk">
                 </div>
                 <div class="flex justify-between mt-5">
                     <button type="button"

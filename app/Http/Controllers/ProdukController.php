@@ -34,7 +34,7 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        //
+        return view('addproduct');
     }
 
     /**
@@ -42,28 +42,31 @@ class ProdukController extends Controller
      */
     public function store(ProdukRequest $request)
     {
-        $data = $request->validated();
         // $filename= date('YmdHi').$data->getClientOriginalName();
         // $imagePath = $data->file('image')->store('public/img/produk');
         // $data->image = $imagePath;
         // Produk::create($data);
-        $data = new Produk;
-        $data->id_owner = Auth::user()->id;
-        $data->id_kategori = $request->input('kategori');
-        $data->nama_produk = $request->input('nama_produk');
-        $data->desk_produk = $request->input('desk_produk');
-        $data->stok_produk = $request->input('stok_produk');
-        $data->harga_produk = $request->input('harga_produk');
+        // $data = new Produk;
+        $data = $request->validated();
+
+        // $data->id_owner = Auth::user()->id;
+        // $data->id_kategori = $request->input('kategori');
+        // $data->nama_produk = $request->input('nama_produk');
+        // $data->desk_produk = $request->input('desk_produk');
+        // $data->stok_produk = $request->input('stok_produk');
+        // $data->harga_produk = $request->input('harga_produk');
 
 
         // $imagePath = $data->file('image')->store('public/img/produk');
-        if($request->file('image')){
-            $data->gambar_produk = $request->file('image')->store('public/img/produk');
+        if($request->file('gambar_produk')){
+            $data['gambar_produk'] = $request->file('gambar_produk')->store('public/img/produk');
         }
 
+
+
         // $data->gambar_produk = $imagePath;
-        $data->slug = Str::slug($request->nama_produk);
-        $data->save();
+        $data['slug'] = Str::slug($request->nama_produk);
+        Produk::create($data);
         return redirect()->route('home');
     }
 
