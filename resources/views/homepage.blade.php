@@ -34,8 +34,8 @@
 </div>
 <div class="mx-auto my-[5rem] grid grid-cols-4 gap-[5rem]">
     @foreach ($produk as $p)
-    <div class="w-[15rem] drop-shadow-lg max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="#" id="imgCard">
+    <div class="w-[15rem] drop-shadow-lg max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" onclick="href= {{ route('produk', ['slug' => $p->slug]) }}">
+        <a href="{{ route('produk', ['slug' => $p->slug]) }}" id="imgCard">
             @php
                 $imgLink = str_replace('public','storage',$p->gambar_produk,);
                 
@@ -66,10 +66,10 @@
 
         </div>
     </div>
+    </form>
     @endforeach
 </div>
-<form class="mx-10 my-[5rem] flex bg-yellow-500">
-    <div></div>
-</form>
+{{-- <form class="mx-10 my-[5rem] flex bg-yellow-500">
+    <div></div> --}}
 
 @endsection

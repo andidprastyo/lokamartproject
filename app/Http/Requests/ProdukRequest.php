@@ -22,8 +22,13 @@ class ProdukRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_produk' => 'required|string|max:70',
-            'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'id_owner'=>'required',
+            'nama_produk' => 'required',
+            'id_kategori' => 'required',
+            'stok_produk' => 'required',
+            'harga_produk' => 'required',
+            'desk_produk' => 'required',
+            'gambar_produk' => 'required',
         ];
     }
 }

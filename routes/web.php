@@ -37,8 +37,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/pay',[OrderController::class, 'pay'])->name('pay');
     Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
     Route::get('/addproduct', [KategoriController::class, 'index']);
-    Route::post('/addproduct',[ProdukController::class,'store']
-    )->name('addproduct');
+    Route::resource('produk', ProdukController::class);
+    Route::resource('user', UserController::class);
 });
 
 // Route::get('/home', [HomeController::class, 'index'])
@@ -72,3 +72,4 @@ Route::get('/ownerregis', function () {
 
 Route::post('/ownerregis',[UserController::class,'storeOwner'])->name('owner-in');
 
+Route::get('/produk/{slug}',[ProdukController::class,'show'])->name('produk');
