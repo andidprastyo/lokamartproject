@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [ProdukController::class, 'index'])->name('home');
 
+
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', function () {
         return view('homepage', ['users' => User::get(),]);
@@ -73,3 +75,5 @@ Route::get('/ownerregis', function () {
 Route::post('/ownerregis',[UserController::class,'storeOwner'])->name('owner-in');
 
 Route::get('/produk/{slug}',[ProdukController::class,'show'])->name('produk');
+
+Route::get('/produks',[ProdukController::class,'index'])->name('produk-search');

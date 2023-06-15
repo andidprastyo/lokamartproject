@@ -20,7 +20,7 @@ class ProdukController extends Controller
         if ($request->has('search')) {
             // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
             $produk =  Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('user')
-            ->orWhere('deskripsi','LIKE','%' .$request->search. '%');
+            ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->get();
             // ->paginate(20);
         } else {
             $produk =  Produk::all();
