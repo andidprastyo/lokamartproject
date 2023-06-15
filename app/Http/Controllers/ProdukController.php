@@ -40,10 +40,8 @@ class ProdukController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProdukRequest $request, Kategori $kategori)
+    public function store(ProdukRequest $request)
     {
-        $kategoriId = $kategori->id;
-
         $data = $request->validated();
         // $filename= date('YmdHi').$data->getClientOriginalName();
         // $imagePath = $data->file('image')->store('public/img/produk');
@@ -51,7 +49,7 @@ class ProdukController extends Controller
         // Produk::create($data);
         $data = new Produk;
         $data->id_owner = Auth::user()->id;
-        $data->id_kategori = $request->input('id_kategori');
+        $data->id_kategori = $request->input('kategori');
         $data->nama_produk = $request->input('nama_produk');
         $data->desk_produk = $request->input('desk_produk');
         $data->stok_produk = $request->input('stok_produk');
@@ -72,9 +70,18 @@ class ProdukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Produk $produk)
+    public function show($slug)
     {
-        //
+        // Temukan produk berdasarkan slug
+        $produk = Produk::where('slug', $slug)->first();
+
+        // Jika produk tidak ditemukan, tampilkan halaman 404
+        if (!$produk) {
+            abort(404);
+        }
+
+        // Tampilkan halaman detail produk dengan data produk yang ditemukan
+        return view('product', compact('produk'));
     }
 
     /**
@@ -82,7 +89,9 @@ class ProdukController extends Controller
      */
     public function edit(Produk $produk)
     {
-        //
+        $produk = Produk::with('kategori')->find($produk->id);
+        $kategori = Kategori::all();
+        return view('editproduct', ['produk' => $produk, 'kategori' => $kategori]);
     }
 
     /**
@@ -91,12 +100,19 @@ class ProdukController extends Controller
     public function update(ProdukRequest $request, Produk $produk)
     {
         $data = $request->validated();
-        $produk = Produk::findOrFail($data);
-        $produk->update($produk);
+        if($request->file('image')){
+            $data->gambar_produk = $request->file('image')->store('public/img/produk');
+        }
 
-        $imagePath = $data->file('image')->store('public/img/produk');
-        $data->image = $imagePath;
+        // $data->gambar_produk = $imagePath;
+        $data->slug = Str::slug($data['nama_produk']);
+        $produk->flll($data);
         $produk->save();
+
+        // $imagePath = $data->file('image')->store('public/img/produk');
+        // $data->image = $imagePath;
+        // $produk->save();
+        return view('homepage');
     }
 
     /**
@@ -105,5 +121,9 @@ class ProdukController extends Controller
     public function destroy(Produk $produk)
     {
         $produk->delete();
+    }
+
+    public function list(Produk $produk){
+        return view('listproduk', compact('produk'));
     }
 }

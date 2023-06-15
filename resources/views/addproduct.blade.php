@@ -3,9 +3,8 @@
     <div class="my-20 mx-24 w-96">
         <h1 class="text-3xl font-bold">Add your product</h1>
         <span class="mt-3">Complate Your Detail Information Product</p>
-            <form action="{{ route('addproduct') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('produk.create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="id_kategori" value="1">
                 <input type="hidden" name="id_owner" value="{{ auth()->user()->id }}">
                 <div class="flex flex-col gap-3 mt-3 appearance-none">
                     <input type="text" id="nama_produk"
@@ -15,8 +14,7 @@
                         <select
                             class="appearance-none w-96 bg-white border border-blue-300 hover:border-blue-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                             name="kategori" id="kategori">
-                            <option value="">Pilih Kategori</option>
-                            {{-- Default --}}
+                            <option value="" selected disabled>Pilih Kategori</option>
                             @foreach ($kategori as $ktr)
                             <option value="{{ $ktr->id }}">{{ $ktr->nama_kategori }}</option>
                 	        @endforeach

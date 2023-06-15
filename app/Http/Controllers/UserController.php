@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        
     }
 
     /**
@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return view('editprofile',compact('user'));
     }
 
     /**
@@ -76,17 +76,10 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-        // $user = User::find($user);
-        // if (!$user) {
-        //     // Mengembalikan respons jika pengguna tidak ditemukan
-        //     $data = $request->validated();
-        //     User::create($data);
-        // }
-        // $user->update([
-        //     'role' => 'owner'
-        // ]);
-
-        // Set the default role
+        $data = $request->validated();
+        $user->fill($data);
+        $user->save();
+        return redirect()->route('home');
     }
 
     /**
