@@ -3,7 +3,7 @@
     <div class="my-20 mx-24 w-96">
         <h1 class="text-3xl font-bold">Add your product</h1>
         <span class="mt-3">Complate Your Detail Information Product</p>
-            <form action="{{ route('produk.create') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id_owner" value="{{ auth()->user()->id }}">
                 <div class="flex flex-col gap-3 mt-3 appearance-none">
