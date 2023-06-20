@@ -5,6 +5,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -30,17 +32,18 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/home', [ProdukController::class, 'index'])->name('home');
     Route::post('/pesan/{id}', [OrderController::class, 'pesan']);
-    Route::get('/cart', [OrderController::class, 'keranjang']);
+    Route::get('/cart', [OrderController::class, 'keranjang'])->name('keranjang');
     // Route::get('/cart', function(){
     //     return view('cart');
     // });
     Route::delete('/keranjang/{id}', [OrderController::class, 'delete']);
-    Route::post('check-out',[OrderController::class, 'checkout']);
+    Route::post('/check-out',[OrderController::class, 'checkout'])->name('checkout');
     Route::get('/pay',[OrderController::class, 'pay'])->name('pay');
     Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
     Route::get('/addproduct', [KategoriController::class, 'index']);
     Route::resource('produk', ProdukController::class);
     Route::resource('user', UserController::class);
+    Route::resource('order', OrderController::class);
     Route::get('/listproduk', [ProdukController::class, 'list'])->name('list');
 });
 
@@ -78,3 +81,18 @@ Route::post('/ownerregis',[UserController::class,'storeOwner'])->name('owner-in'
 Route::get('/produk/{slug}',[ProdukController::class,'show'])->name('produk');
 
 Route::get('/produks',[ProdukController::class,'index'])->name('produk-search');
+
+Route::get('/listproduks',[ProdukController::class,'list'])->name('list-search');
+
+Route::get('/admin', [AdminController::class,'index']);
+
+Route::get('/admincus', [AdminController::class,'customer'])->name('adminuser');
+Route::get('/admincus-search', [AdminController::class,'searchUser']);
+Route::get('/adminow', [AdminController::class,'owner'])->name('adminowner');
+Route::get('/adminow-search', [AdminController::class,'searchOwner']);
+
+Route::resource('review', ReviewController::class);
+
+Route::get('/review/', [ProdukController::class, 'rating'])->name('review');
+
+Route::get('/review/create/{id}', [ReviewController::class,'create'])->name('review.create');

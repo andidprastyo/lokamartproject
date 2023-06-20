@@ -1,12 +1,12 @@
-@include('sweetalert::alert')
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class=" bg-white">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Laravel</title>
+    <title>LokaMart</title>
     <script src="https://kit.fontawesome.com/e5c96fca62.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -17,6 +17,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{asset("css/stars.css")}}">
 @vite(['resources/css/app.css','resources/js/app.js'])
+<!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+<script type="text/javascript"
+src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="{{config('midtrans.client_key')}}"></script>
 </head>
 
 <body class="antialiased flex flex-col ">
@@ -65,7 +69,7 @@
         <a href=""><img src="{{asset('img/heart.svg')}}" alt=""></a>
       </div>
       <div class="ml-8 mt-5">
-        <a href=""><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>
+        <a href="{{ route('keranjang') }}"><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>
       </div>
 
       <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-medium rounded-lg text-sm px-8 mt-5 text-center inline-flex items-center " type="button"> 

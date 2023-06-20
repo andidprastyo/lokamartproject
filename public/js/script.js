@@ -34,6 +34,7 @@ function changeconftext() {
 // ---- ---- Const ---- ---- //
 const stars = document.querySelectorAll('.stars i');
 const starsNone = document.querySelector('.rating-box');
+const Input = document.getElementsByName('rating');
 
 // ---- ---- Stars ---- ---- //
 stars.forEach((star, index1) => {
@@ -41,11 +42,23 @@ star.addEventListener('click', () => {
   stars.forEach((star, index2) => {
     // ---- ---- Active Star ---- ---- //
     index1 >= index2
-      ? star.classList.add('active')
-      : star.classList.remove('active');
+      ? (
+        star.classList.add('active'),
+        Input.values = index1+1
+        )
+      : (
+        star.classList.remove('active'),
+        Input.values = index1+1
+        );
   });
+  console.log(Input.values)
 });
 });
+
+
+
+
+
 
 const dropdown = document.querySelector('select');
 const radioInputs = document.querySelectorAll('input[type="radio"]');

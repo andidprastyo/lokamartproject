@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Http\Requests\ProdukRequest;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,16 +21,23 @@ class ProdukController extends Controller
     {
         if ($request->has('search')) {
             // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
-            $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('user')
+            $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with(['user','review'])
             ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->get();
             // ->paginate(20);
         } else {
-            $produk = Produk::all();
+            $produk = Produk::with('review')->get();
+            $rating = Review::with('produk')->get()[0]->produk;
             // $produk =  Produk::paginate(20);
-        }
-        return view('homepage',compact(['produk']));
+        }   
+
+        return view('homepage',compact(['produk', 'rating']));
     }
 
+    public function rating(Produk $produk){
+        $rating = Review::where('id_produk', $produk->id)->get()->avg('rating');
+        // dd($rating);
+        return view('homepage',compact('rating'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -79,14 +87,15 @@ class ProdukController extends Controller
     {
         // Temukan produk berdasarkan slug
         $produk = Produk::where('slug', $slug)->first();
-
+        $review = Review::where('id_produk', $produk->id)->with('user')->get();
+        $rating = Review::where('id_produk', $produk->id)->get()->avg('rating');
         // Jika produk tidak ditemukan, tampilkan halaman 404
         if (!$produk) {
             abort(404);
         }
 
         // Tampilkan halaman detail produk dengan data produk yang ditemukan
-        return view('product', compact('produk'));
+        return view('product', compact('produk', 'review', 'rating'));
     }
 
     /**
@@ -96,7 +105,7 @@ class ProdukController extends Controller
     {
         $produk = Produk::with('kategori')->find($produk->id);
         $kategori = Kategori::all();
-        return view('editproduct', ['produk' => $produk, 'kategori' => $kategori]);
+        return view('editproduct', compact('produk', 'kategori'));
     }
 
     /**
@@ -125,10 +134,33 @@ class ProdukController extends Controller
     public function destroy(Produk $produk)
     {
         $produk->delete();
+
+        return redirect()->back()->with('success', 'Produk berhasil dihapus.');
     }
 
-    public function list(Produk $produk){
-        $produk = Produk::where('id_owner', Auth::user()->id)->get();
-        return view('listproduct', compact('produk'));
+    public function list(Request $request){
+        if ($request->has('search')) {
+            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
+            $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')
+            ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->with('user')->get();
+
+            // $produk = (array) $produk;
+
+            // $produk = array_filter($produk, function ($prod){
+            //     return $prod['id_owner'] === Auth::user()->id;
+            // });
+            // $produk = (object) $produk;
+            $filteredProduk = $produk->filter(function ($prod) {
+                return $prod->user->id === Auth::user()->id;
+            });
+
+            $produk = $filteredProduk->values();
+
+            // ->paginate(20);
+        } else {
+            $produk = Produk::where('id_owner', Auth::user()->id)->get();
+            // $produk =  Produk::paginate(20);
+        }
+        return view('listproduct',compact(['produk']));
     }
 }

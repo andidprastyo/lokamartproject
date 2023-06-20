@@ -16,6 +16,7 @@ class OrderController extends Controller
         $produk = Produk::find($id);
         return view('layouts.user.detailProduk', compact(['produk']));
     }
+
     public function pesan(Request $request, $id)
     {
         $produk = Produk::find($id);
@@ -55,7 +56,7 @@ class OrderController extends Controller
             $detail_pesanan->produk_id = $id;
             $detail_pesanan->order_id = $pesanan_baru->id;
             $detail_pesanan->qty = 1;
-            $detail_pesanan->subtotal = $produk->harga_produk;
+            $detail_pesanan->subtotal = $produk->harga_produk * $detail_pesanan->qty;
             $detail_pesanan->save();
         } else {
             $detail_pesanan = Order_detail::where('produk_id', $produk->id)->where('order_id', $pesanan_baru->id)->first();
@@ -74,6 +75,7 @@ class OrderController extends Controller
 
         return redirect('/home');
     }
+    
     public function keranjang()
     {
         $pesanan = Order::where('user_id', Auth::user()->id)->where('status', 'keranjang')->first();
@@ -96,6 +98,21 @@ class OrderController extends Controller
         }
         return view('cart', compact('pesanan'));
     }
+
+    public function destroy($id)
+    {
+        $detail_pesanan = Order_detail::where('id', $id)->first();
+
+        // mengurangi total pada pesanan
+        $pesanan = Order::where('id', $detail_pesanan->order_id)->first();
+        $pesanan->total = $pesanan->total - $detail_pesanan->subtotal;
+        $pesanan->update();
+
+        $detail_pesanan->delete();
+
+        return redirect('/cart');
+    }
+
     public function delete($id)
     {
         $detail_pesanan = Order_detail::where('id', $id)->first();
@@ -109,6 +126,7 @@ class OrderController extends Controller
 
         return redirect('/cart');
     }
+
     public function checkout(Request $request)
     {
         $pesanan =  Order::where('user_id', Auth::user()->id)->where('status', "keranjang")->first();
@@ -150,9 +168,13 @@ class OrderController extends Controller
 
         $detail_pesanan = Order_detail::where('order_id', $pesanan_id)->get();
         foreach ($detail_pesanan as $dp) {
+            // $dp->qty = $request->input('qty');
+            // $dp->subtotal = $request->input('subtotal');
+            // $dp->update();
             $produk = Produk::where('id', $dp->produk_id)->first();
             $produk->stok_produk = $produk->stok_produk - $dp->qty;
             $produk->update();
+            $pesanan = $dp->subtotal + $dp->subtotal;
         }
 
         return redirect()->route('pay');
@@ -162,9 +184,9 @@ class OrderController extends Controller
         $pesanan = Order::where('user_id', Auth::user()->id)->where('paid', 'unpaid')->get();
         $pesanan_id = $pesanan->pluck('id');
 
-        $detail_pesanan = Order_detail::whereIn('order_id', $pesanan_id)->get();
+        $detail_pesanan = Order_detail::whereIn('order_id', $pesanan_id)->with('produk')->get();
 
-        return view('pay', compact(['detail_pesanan', 'pesanan']));
+        return view('historipesanan', compact(['detail_pesanan', 'pesanan']));
     }
     public function callback(Request $request)
     {

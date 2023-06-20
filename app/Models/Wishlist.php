@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order_detail extends Model
+class Wishlist extends Model
 {
     use HasFactory;
-    public function produk()
+
+    public function wishlist_detail()
     {
-        return $this->belongsTo(Produk::class, 'produk_id', 'id');
+        return $this->hasMany(Wishlist_detail::class);
     }
 }
