@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\WishlistController;
 use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('user', UserController::class);
     Route::resource('order', OrderController::class);
     Route::get('/listproduk', [ProdukController::class, 'list'])->name('list');
+    Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('f\avorite.add');
+    Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove');
+    Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
 });
 
 // Route::get('/home', [HomeController::class, 'index'])
