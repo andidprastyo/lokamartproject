@@ -132,6 +132,9 @@ class OrderController extends Controller
         $pesanan =  Order::where('user_id', Auth::user()->id)->where('status', "keranjang")->first();
         $pesanan_id = $pesanan->id;
 
+        $pesanan->total = 0;
+        $pesanan->update();
+
         $pesanan->nama_penerima = $request->nama_penerima;
         $pesanan->notelp_penerima = $request->notelp_penerima;
         $pesanan->catatan_order = $request->catatan_order;
@@ -149,6 +152,18 @@ class OrderController extends Controller
         // Set 3DS transaction for credit card to true
         \Midtrans\Config::$is3ds = true;
 
+        
+        $detail_pesanan = Order_detail::where('order_id', $pesanan_id)->get();
+        foreach ($detail_pesanan as $dp) {
+            $produk = Produk::where('id', $dp->produk_id)->first();
+            $dp->qty = $request->input('qty');
+            $dp->subtotal = $produk->harga_produk * $dp->qty;
+            $dp->update();
+            $produk->stok_produk = $produk->stok_produk - $dp->qty;
+            $produk->update();
+            $pesanan->total = $pesanan->total + $dp->subtotal;
+            $pesanan->update();
+        }
         $params = array(
             'transaction_details' => array(
                 'order_id' => $pesanan->id,
@@ -165,18 +180,6 @@ class OrderController extends Controller
         $pesanan->status = 'checkout';
         $pesanan->token = $snapToken;
         $pesanan->update();
-
-        $detail_pesanan = Order_detail::where('order_id', $pesanan_id)->get();
-        foreach ($detail_pesanan as $dp) {
-            // $dp->qty = $request->input('qty');
-            // $dp->subtotal = $request->input('subtotal');
-            // $dp->update();
-            $produk = Produk::where('id', $dp->produk_id)->first();
-            $produk->stok_produk = $produk->stok_produk - $dp->qty;
-            $produk->update();
-            $pesanan = $dp->subtotal + $dp->subtotal;
-        }
-
         return redirect()->route('pay');
     }
     public function pay()

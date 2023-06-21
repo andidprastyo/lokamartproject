@@ -66,7 +66,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
     </div>
     <div class="flex">
       <div class="ml-20 mt-5">
-        <a href=""><img src="{{asset('img/heart.svg')}}" alt=""></a>
+        <a href="{{ route('wishlist') }}"><img src="{{asset('img/heart.svg')}}" alt=""></a>
       </div>
       <div class="ml-8 mt-5">
         <a href="{{ route('keranjang') }}"><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>

@@ -1,8 +1,8 @@
 @extends('layout.template')
 @section('content')
     <div class="mt-20 ml-20 flex flex-col">
-        <span class="text-3xl mb-3 font-bold">Shopping Cart</span>
         @if (!empty($pesanan))
+        <span class="text-3xl mb-3 font-bold">Shopping Cart</span>
             <span class="mb-5">There are <span class="text-green-500">{{ count($detail_pesanan) }} Product </span>in your
                 cart</span>
             <div class="flex mb-8">
@@ -74,7 +74,7 @@
                                         <td class="px-6 py-4" style="padding-left: 56px">
                                             <div class="flex items-center space-x-3" id="quantity">
                                                 <div>
-                                                    <input type="number" name="qty" id="qtyInput{{ $dp->id }}"
+                                                    <input type="number" id="qtyInput{{ $dp->id }}"
                                                         class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                         placeholder="1" required min="1" max="1000"
                                                         onchange="changeQty ({{ $dp->id }})">
@@ -206,6 +206,11 @@
             </div>
     </div>
     @endif
+    <div class="mx-auto flex flex-col text-center my-20">
+        <span class="text-3xl font-bold"> Your Cart is <span class="text-amber-400">Empty</span></span>
+        <span class="text-xl mt-2">Go to shop and add your product</span>
+        <a href="{{ route('home') }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mb-28 w-[10rem] mx-auto ">Back to Shop</button></a>
+    </div>
     </div>
 @endsection
 
@@ -239,6 +244,10 @@
         let price = document.getElementById(`price${id}`)
         let subtotinput = document.getElementById(`subtotinput${id}`)
         let sum_tot = document.getElementById(`sum-tot`)
+        var hiddenInput = document.getElementsByName("qty")[0];
+
+        console.log(hiddenInput);
+        hiddenInput.value = qtyinput.value;
 
         subtotal.innerHTML = parseFloat(qtyinput.value) * parseFloat(price.innerHTML)
         subtotinput.value = subtotal.innerHTML

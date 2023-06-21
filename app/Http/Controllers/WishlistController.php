@@ -4,12 +4,47 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Maize\Markable\Models\Favorite;
 
 class WishlistController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function wishlist()
+     {
+        $products = Produk::whereHasFavorite(
+             auth()->user()
+        )->get(); 
+        return view('wishlist',compact('products'));
+     }
+ 
+     public function favoriteAdd($id)
+     {
+         $product = Produk::find($id);
+         $user = auth()->user();
+         if ($product && $user) {
+            Favorite::add($product, $user);
+            session()->flash('success', 'Product is added to favorites successfully!');
+        } else {
+            session()->flash('error', 'Unable to add product to favorites. You must login to favorites');
+        }
+    
+        return redirect()->route('home');
+     }
+ 
+     public function favoriteRemove($id)
+     {
+         $product = Produk::find($id);
+         $user = auth()->user();
+         Favorite::remove($product, $user);
+         session()->flash('success', 'Product is Remove to Favorite Successfully !');
+ 
+         return redirect()->route('home');
+     }
+
     public function index()
     {
         //
