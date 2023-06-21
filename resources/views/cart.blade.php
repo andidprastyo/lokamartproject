@@ -3,111 +3,259 @@
     <div class="mt-20 ml-20 flex flex-col">
         <span class="text-3xl mb-3 font-bold">Shopping Cart</span>
         @if (!empty($pesanan))
-        <?php $no = 1;?>
-        <span class="mb-5">There are <span class="text-green-500">3 Product </span>in your cart</span>
-        <div class="flex mb-8">
-            <div class="flex flex-col">
-                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-all-search" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-all-search" class="sr-only">checkbox</label>
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Image
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Product
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Price
-                                </th>
-                                <th scope="col" class=" px-14 py-3">
-                                    Quantity
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Total
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            @foreach ($detail_pesanan as $dp)
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="w-4 p-4">
-                                    <div class="flex items-center">
-                                        <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                    </div>
-                                </td>
-                                <td class="w-32 p-4">
-                                    @php
-                                    $imgLink = str_replace('public','storage',$dp->produk->gambar_produk,);
-                
-                                    @endphp
-                                    <img src="{{asset($imgLink)}}" alt="">
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    <div class="flex flex-col">
-                                        <span class="text-lg ">{{$dp->produk->nama_produk}}</span>
-                                        <span class="text-xs ">Owner: {{ $owner[$loop->iteration - 1]->name }}</span>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    {{$dp->produk->harga_produk}}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-3" id="quantity">
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" id="buttonUp">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                        <div>
-                                            <input type="number" id="first_product" class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="1" required min="1" max="1000">
+            <span class="mb-5">There are <span class="text-green-500">{{ count($detail_pesanan) }} Product </span>in your
+                cart</span>
+            <div class="flex mb-8">
+                <div class="flex flex-col">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="relative w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        <div class="flex items-center">
+                                            <input id="checkbox-all-search" type="checkbox"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                            <label for="checkbox-all-search" class="sr-only">checkbox</label>
                                         </div>
-                                        <button class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button" id="buttonDown">
-                                            <span class="sr-only">Quantity button</span>
-                                            <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                    {{$pesanan->total}}
-                                </td>
-                                <td class="px-6 py-4">
-                                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="flex mt-10 justify-between">
-                    <button type="button" class="drop-shadow-lg focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-20 w-fit">Continue Shopping</button>
-                    <button type="button" class="focus:outline-none text-white bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-20 w-fit">Update Cart</button>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Image
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Product
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Price
+                                    </th>
+                                    <th scope="col" class=" px-14 py-3">
+                                        Quantity
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Total
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach ($detail_pesanan as $dp)
+                                    <tr
+                                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <td class="w-4 p-4">
+                                            <div class="flex items-center">
+                                                <input id="checkbox-table-search-1" type="checkbox"
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="w-32 p-4">
+                                            @php
+                                                $imgLink = str_replace('public', 'storage', $dp->produk->gambar_produk);
+                                                
+                                            @endphp
+                                            <img src="{{ asset($imgLink) }}" alt="">
+                                        </td>
+                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            <div class="flex flex-col">
+                                                <span class="text-lg ">{{ $dp->produk->nama_produk }}</span>
+                                                <span class="text-xs ">Owner:
+                                                    {{ $owner[$loop->iteration - 1]->name }}</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white"
+                                            id="price{{ $dp->id }}">
+                                            {{ $dp->produk->harga_produk }}
+                                        </td>
+
+                                        {{-- input qty start --}}
+
+                                        <td class="px-6 py-4" style="padding-left: 56px">
+                                            <div class="flex items-center space-x-3" id="quantity">
+                                                <div>
+                                                    <input type="number" name="qty" id="qtyInput{{ $dp->id }}"
+                                                        class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        placeholder="1" required min="1" max="1000"
+                                                        onchange="changeQty ({{ $dp->id }})">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white subtotal"
+                                            id="subtotal{{ $dp->id }}">
+                                            {{ $dp->subtotal }}
+                                        </td>
+                                        <input type="hidden" name="" id="subtotinput{{$dp->id}}">
+
+
+                                        {{-- input qty end --}}
+
+                                        <td class="px-6 py-4">
+                                            <form action="{{ route('order.destroy', $dp->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit"
+                                                    class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <div class="flex mb-8">
+                <div class="flex flex-col w-[52rem]">
+                    <form action="{{ route('checkout') }}" method="post">
+                        @csrf
+                        {{-- input hidden --}}
+                        <input type="hidden" name="qty" value="">
+                        <span class="font-bold text-md">Shipping Details</span>
+                        <div class="grid gap-3 mb-5 md:grid-cols-2">
+                            <div>
+                                <label for="nama"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Nama
+                                    Penerima</label>
+                                <input type="text" id="nama" name="nama_penerima"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="John" required>
+                            </div>
+                            <div>
+                                <label for="phone"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">No.Telp</label>
+                                <input type="text" id="phone" name="notelp_penerima"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="123-45-678" required>
+                            </div>
+                        </div>
+                        <div class="grid gap-3 mb-5 md:grid-cols-3">
+                            <div>
+                                <label for="provinsi"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Provinsi</label>
+                                <input type="text" id="provinsi" name="provinsi"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Jawa Timur" required>
+                            </div>
+                            <div>
+                                <label for="Kota"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Kota</label>
+                                <input type="text" id="kota" name="kota"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Kota Malang" required>
+                            </div>
+                            <div>
+                                <label for="Kecamatan"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Kecamatan</label>
+                                <input type="text" id="kecamatan" name="kecamatan"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Lowokwaru" required>
+                            </div>
+                            <div>
+                                <label for="Kecamatan"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Kelurahan</label>
+                                <input type="text" id="kelurahan" name="kelurahan"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 w-full focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Jatimulyo" required>
+                            </div>
+                        </div>
+                        <div class="grid gap-3 mb-7 md:grid-cols-2">
+                            <div>
+                                <label for="alamat"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Alamat
+                                    Lengkap</label>
+                                <textarea id="alamat" rows="4" name="detail_alamat"
+                                    class="block p-2.5 resize-none text-md text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full"
+                                    placeholder="Jl. Soekarno Hatta no 2"></textarea>
+                            </div>
+                            <div>
+                                <label for="catatan"
+                                    class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">Catatan</label>
+                                <textarea id="message" rows="4" name="catatan_order"
+                                    class="block p-2.5 resize-none text-md text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 w-full"
+                                    placeholder="Catatan ..."></textarea>
+                            </div>
+                        </div>
+                        <span class="font-bold text-md">Payment Information</span>
+                        <div class="flex text-sm mb-20">
+                            <div class="flex-col w-8 mr-20">
+                                <div class="text-center text-2xl">
+                                    {{ count($detail_pesanan) }}
+                                </div>
+                                <div>
+                                    items
+                                </div>
+                            </div>
+                            <div class="flex-col w-fit mr-20">
+                                <div class="text-center text-green-500 text-2xl" id="sum-tot">
+                                    {{ $pesanan->total }}
+                                </div>
+                                <div>
+                                    Total Pembayaran
+                                </div>
+                            </div>
+                            <button type="submit"
+                                class="focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-sm w-fit px-5 py-3 mr-10 mb-2">Checkout</button>
 
-            <div class="flex flex-col w-[13rem] h-[7rem] mx-5 px-3 py-3 border border-black shadow-md">
-                <div class="flex flex-row justify-between text-lg font-md">
-                    <span>Total: </span>
-                    <span class="font-bold">$599</span>
+                            <button></button>
+                    </form>
+                    <a href="{{ route('home') }}"><button type="button"
+                            class="focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-bold rounded-lg text-sm w-fit px-5 py-3 mr-2 mb-2">Continue
+                            Shopping</button></a>
                 </div>
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 mt-4 mx-3 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Checkout</button>
             </div>
-        </div>
-
-
-@endif
+    </div>
+    @endif
     </div>
 @endsection
+
+<script>
+    // function changeQty(id){
+    //     let qty = document.getElementById('qty'+ id);
+    //     qty.text
+
+    // }
+    $(document).ready(function() {
+        // Menangkap perubahan pada elemen quantity
+        $('#qtyInput').on('change', function() {
+            // Mendapatkan nilai quantity yang baru
+            var newQuantity = parseInt($(this).val());
+
+            // Menggunakan nilai quantity yang baru sesuai kebutuhan, misalnya:
+            // Menampilkan nilai quantity di console
+            console.log(newQuantity);
+
+            // Mengirim nilai quantity yang baru ke server melalui permintaan AJAX
+            // atau mengupdate nilai quantity pada elemen lain di tampilan
+        });
+    });
+</script>
+
+<script>
+    function changeQty(id) {
+
+        let qtyinput = document.getElementById(`qtyInput${id}`)
+        let subtotal = document.getElementById(`subtotal${id}`)
+        let price = document.getElementById(`price${id}`)
+        let subtotinput = document.getElementById(`subtotinput${id}`)
+        let sum_tot = document.getElementById(`sum-tot`)
+
+        subtotal.innerHTML = parseFloat(qtyinput.value) * parseFloat(price.innerHTML)
+        subtotinput.value = subtotal.innerHTML
+
+
+        let total_all = document.querySelectorAll('.subtotal')
+
+        total_all = [...total_all]
+
+        total_all = total_all.map(element => parseFloat(element.innerHTML))
+
+        total_all = total_all.reduce((total, each) => total + each)
+        console.log(total_all)
+        sum_tot.innerHTML = total_all
+    }
+</script>
+
 {{-- <script>
         // jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
     $.('#quantity').each(function() {

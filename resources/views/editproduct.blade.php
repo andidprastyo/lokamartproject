@@ -32,7 +32,7 @@
                         class="bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 resize-noneform-control @error('desk_produk') is-invalid @enderror"
                         name="desk_produk" placeholder="Deskripsi produk">{{ $produk->desk_produk }}</textarea>
                     <input
-                        class="block w-full text-sm text-gray-900 border border-blue-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500 form-control"
+                        class="block w-full text-sm text-gray-900 border border-blue-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                         aria-describedby="user_avatar_help" id="user_avatar" type="file" name="gambar_produk">
                 </div>
                 <div class="flex justify-between mt-5">

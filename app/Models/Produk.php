@@ -9,13 +9,11 @@ class Produk extends Model
 {
     use HasFactory;
     protected $table = 'produk';
-    // protected $fillable = ['nama']
-    // untuk mengatasi error fillable bisa digantikan dengan guarded
     protected $guarded = ['nama'];
     protected $with = ['user'];
     public function order_detail()
     {
-        return $this->hasMany(Order_detail::class);
+        return $this->hasMany(Order_detail::class, 'id', 'produk_id');
     }
 
     public function kategori(){
@@ -23,6 +21,15 @@ class Produk extends Model
     }
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'id_owner','id');
+    }
+
+    public function review(){
+        return $this->hasMany(Review::class,'id', 'id_produk');
+    }
+
+    public function wishlist_detail()
+    {
+        return $this->hasMany(Wishlist_detail::class);
     }
 }

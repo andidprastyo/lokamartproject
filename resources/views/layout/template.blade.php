@@ -4,8 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Laravel</title>
+    <title>LokaMart</title>
     <script src="https://kit.fontawesome.com/e5c96fca62.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"/>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -16,6 +17,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{asset("css/stars.css")}}">
 @vite(['resources/css/app.css','resources/js/app.js'])
+<!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+<script type="text/javascript"
+src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="{{config('midtrans.client_key')}}"></script>
 </head>
 
 <body class="antialiased flex flex-col ">
@@ -49,13 +54,13 @@
       </ul>
     </div>
     <div class="mt-3 ml-10">
-      <form>
+      <form method="GET" action="{{ route('produk-search') }}">
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
-            <input type="search" id="default-search" class="block w-96 h-10 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required>
+            <input id="default-search" class="block w-96 h-10 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required name="search" {{ Request::get('search') }}>
         </div>
       </form>
     </div>
@@ -64,7 +69,7 @@
         <a href=""><img src="{{asset('img/heart.svg')}}" alt=""></a>
       </div>
       <div class="ml-8 mt-5">
-        <a href=""><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>
+        <a href="{{ route('keranjang') }}"><img src="{{asset('img/shopping-cart.svg')}}" alt=""></a>
       </div>
 
       <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white font-medium rounded-lg text-sm px-8 mt-5 text-center inline-flex items-center " type="button"> 
@@ -109,7 +114,7 @@
       <a href="{{ route('owner') }}">Owner UMKM</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
-      <a href="">Seller Centre</a>
+      <a href="{{ route('list') }}">Seller Centre</a>
     </div>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Terms & Conditions</a>
