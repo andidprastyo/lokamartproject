@@ -82,7 +82,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
       <li><a href="{{ route('register') }}">Register</a></li>
         @else
         <img src="{{asset('img/profile-circle.svg')}}" alt="">
-        Hi,{{ auth()->user()->name }}
+        Hi, {{ strtok(auth()->user()->name, ' ') }}
       </button>
       <!-- Dropdown menu -->
       <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">

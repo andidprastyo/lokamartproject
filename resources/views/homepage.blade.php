@@ -43,7 +43,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
             <div id="dropdownNavbar" class="z-50 w-48 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
               <ul class="py-2 text-xl text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
                 <li>
-                    <form method="GET" action="{{ route('produk.index') }}">
+                    <form method="GET" id="formkategori" action="{{ route('produkall') }}">
                         <select name="kategori" onchange="pindahKeHalaman(this)" class="block text-lg px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             <option value="">Semua Kategori</option>
                             @foreach ($kategori as $k)
@@ -82,7 +82,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
       <li><a href="{{ route('register') }}">Register</a></li>
         @else
         <img src="{{asset('img/profile-circle.svg')}}" alt="">
-        Hi,{{ auth()->user()->name }}
+        Hi, {{ strtok(auth()->user()->name, ' ') }}
       </button>
       <!-- Dropdown menu -->
       <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
@@ -169,7 +169,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
 <div class="mx-auto my-[5rem] grid grid-cols-4 gap-[5rem]">
     @foreach ($produk as $p)
     <div class="w-[15rem] drop-shadow-lg max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="{{ route('produk', ['slug' => $p->slug]) }}" id="imgCard">
+        <a href="{{ route('data-produk', $p->slug) }}" id="imgCard">
             @php
                 $imgLink = str_replace('public','storage',$p->gambar_produk,);
                 
@@ -188,10 +188,14 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
                 <span class="text-3xl font-bold text-gray-900 dark:text-white">{{$p->harga_produk}}</span>
             </div>
             <div class="flex flex-col gap-3 mt-3">
+              @if($p->stok_produk > 0)
                 <form method="POST" action="/pesan/{{$p->id}}">
                     @csrf
                     <button type="submit" class="text-white bg-yellow-300 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-yellow-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-0">Add to Cart</button>
                 </form>
+              @else
+              stok habis
+              @endif
                 <form action="{{ route('favorite.add', $p->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
@@ -329,9 +333,10 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
 <script>
   function pindahKeHalaman(selectElement) {
     var selectedValue = selectElement.value;
+    console.log(selectedValuep);
     if (selectedValue === "") {
       // Pilihan "Semua Kategori" dipilih, pindahkan ke halaman homepage.blade.php
-      window.location.href = "{{ route('home') }}";
+      window.location.href = "{{ route('produkall') }}";
     } else {
       // Pilihan lain yang dipilih, submit form (misalnya untuk filter berdasarkan kategori)
       selectElement.form.submit();

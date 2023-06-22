@@ -8,7 +8,6 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\WishlistController;
-use App\Models\Produk;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +24,34 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ProdukController::class, 'index'])->name('home');
 
 
+Route::group(['middleware' => 'role:admin'], function () {
+Route::get('/admin', [AdminController::class,'index'])->name('admin');
+Route::get('/admincus', [AdminController::class,'customer'])->name('adminuser');
+Route::get('/admincus-search', [AdminController::class,'searchUser']);
+Route::get('/adminow', [AdminController::class,'owner'])->name('adminowner');
+Route::get('/adminow-search', [AdminController::class,'searchOwner']);
+});
 
-Route::group(['middleware' => ['auth', 'verified']], function () {
+// Route::group(['middleware' => 'role:owner|user'], function () {
+//     Route::get('/home', function () {
+//         return view('homepage', ['users' => User::get(),]);
+//     });
+//     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+//     Route::get('/home', [ProdukController::class, 'index'])->name('home');
+//     Route::post('/pesan/{id}', [OrderController::class, 'pesan']);
+//     Route::get('/cart', [OrderController::class, 'keranjang'])->name('keranjang');
+//     Route::delete('/keranjang/{id}', [OrderController::class, 'delete']);
+//     Route::post('/check-out',[OrderController::class, 'checkout'])->name('checkout');
+//     Route::get('/pesanan',[OrderController::class, 'pay'])->name('pay');
+//     Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
+//     Route::resource('user', UserController::class);
+//     Route::resource('order', OrderController::class);
+//     Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
+//     Route::get('/listorder', [OrderController::class, 'listorder'])->name('listorder');
+//     // Route::resource('review', ReviewController::class);
+// });
+
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', function () {
         return view('homepage', ['users' => User::get(),]);
     });
@@ -34,26 +59,26 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', [ProdukController::class, 'index'])->name('home');
     Route::post('/pesan/{id}', [OrderController::class, 'pesan']);
     Route::get('/cart', [OrderController::class, 'keranjang'])->name('keranjang');
-    // Route::get('/cart', function(){
-    //     return view('cart');
-    // });
     Route::delete('/keranjang/{id}', [OrderController::class, 'delete']);
     Route::post('/check-out',[OrderController::class, 'checkout'])->name('checkout');
     Route::get('/pesanan',[OrderController::class, 'pay'])->name('pay');
     Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
-    Route::get('/addproduct', [KategoriController::class, 'index']);
-    Route::resource('produk', ProdukController::class);
+    Route::get('user', [UserController::class, 'edit'])->name('user.edit');
     Route::resource('user', UserController::class);
     Route::resource('order', OrderController::class);
-    Route::get('/listproduk', [ProdukController::class, 'list'])->name('list');
-    Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add');
-    Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove');
     Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
-    Route::get('/listorder', [OrderController::class, 'listorder'])->name('listorder');
+    Route::post('/review-store', [ReviewController::class, 'store'])->name('review-store');
+    Route::get('/review/', [ProdukController::class, 'rating'])->name('review');
+    Route::get('/review/create/{id}', [ReviewController::class,'create'])->name('review-create');
 });
 
-// Route::get('/home', [HomeController::class, 'index'])
-// ->name('home');
+Route::group(['middleware' => 'role:owner'], function () {
+    Route::get('/listproduks',[ProdukController::class,'list'])->name('list-search');
+    Route::get('/listproduk', [ProdukController::class, 'list'])->name('list');
+    Route::get('/listorder', [OrderController::class, 'listorder'])->name('listorder');
+    Route::get('/addproduct', [KategoriController::class, 'index']);
+    Route::resource('produk', ProdukController::class);
+});
 
 Route::get('/login', function () {
     return view('login');
@@ -83,23 +108,13 @@ Route::get('/ownerregis', function () {
 
 Route::post('/ownerregis',[UserController::class,'storeOwner'])->name('owner-in');
 
-Route::get('/produk/{slug}',[ProdukController::class,'show'])->name('produk');
+Route::get('/data-produk{slug}',[ProdukController::class,'show'])->name('data-produk');
 
 Route::get('/produks',[ProdukController::class,'index'])->name('produk-search');
 
-Route::get('/listproduks',[ProdukController::class,'list'])->name('list-search');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/admin', [AdminController::class,'index']);
+Route::get('/produkall', [ProdukController::class, 'index'])->name('produkall');
 
-Route::get('/admincus', [AdminController::class,'customer'])->name('adminuser');
-Route::get('/admincus-search', [AdminController::class,'searchUser']);
-Route::get('/adminow', [AdminController::class,'owner'])->name('adminowner');
-Route::get('/adminow-search', [AdminController::class,'searchOwner']);
-
-Route::resource('review', ReviewController::class);
-
-Route::get('/review/', [ProdukController::class, 'rating'])->name('review');
-
-Route::get('/review/create/{id}', [ReviewController::class,'create'])->name('review.create');
-
-Route::patch('/produk/{id}/review', [ReviewController::class, 'create'])->name('produk.review');
+Route::post('favorite-add/{id}', [WishlistController::class, 'favoriteAdd'])->name('favorite.add')->middleware('auth');
+Route::delete('favorite-remove/{id}', [WishlistController::class, 'favoriteRemove'])->name('favorite.remove')->middleware('auth');

@@ -1,10 +1,16 @@
 @extends('layout.template')
 @section('content')
 <div class="mx-auto my-[5rem] grid grid-cols-4 gap-[5rem]">
-    @if(!empty($products))
+    @if(empty($products))
+    <div class="mx-auto flex flex-col text-center my-20">
+        <span class="text-3xl font-bold"> Your Wishlist is <span class="text-amber-400">Empty</span></span>
+        <span class="text-xl mt-2">Go to shop and add your product</span>
+        <a href="{{ route('home') }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mb-28 w-[10rem] mx-auto ">Back to Shop</button></a>
+    </div>    
+    @endif
     @foreach ($products as $p)
     <div class="w-[15rem] drop-shadow-lg max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <a href="{{ route('produk', ['slug' => $p->slug]) }}" id="imgCard">
+        <a href="{{ route('data-produk', $p->slug) }}" id="imgCard">
             @php
                 $imgLink = str_replace('public','storage',$p->gambar_produk,);
                 
@@ -41,11 +47,6 @@
     </div>
     </form>
     @endforeach
-    @endif
 </div>
-<div class="mx-auto flex flex-col text-center my-20">
-    <span class="text-3xl font-bold"> Your Wishlist is <span class="text-amber-400">Empty</span></span>
-    <span class="text-xl mt-2">Go to shop and add your product</span>
-    <a href="{{ route('home') }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mb-28 w-[10rem] mx-auto ">Back to Shop</button></a>
-</div>
+
 @endsection

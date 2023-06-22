@@ -207,8 +207,6 @@ class OrderController extends Controller
 
     public function listorder()
     {
-        $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
-        $currentDay = Carbon::now()->format('l'); // Get the day of the week
         $produk = Produk::with('user')->where('id_owner', Auth::user()->id)->get();
         foreach($produk as $p){
         $detail_pesanan = Order_detail::with('produk')->where('produk_id', $p->id)->get();
@@ -216,10 +214,11 @@ class OrderController extends Controller
             $order = Order::with('order_detail.produk')->where('id', $dp->order_id)->get();
             $addresses = DB::table('order')
             ->selectRaw("CONCAT(provinsi, ', ', kota, ', ', kecamatan, ', ', kelurahan, ', ', detail_alamat) AS alamat")
+            ->where('id', $dp->order_id)
             ->get();
             }
         }
 
-        return view('owner.listorderan', compact(['currentDate', 'currentDay', 'produk', 'detail_pesanan', 'order', 'addresses']));
+        return view('owner.listorderan', compact(['produk', 'detail_pesanan', 'order', 'addresses']));
     }
 }

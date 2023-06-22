@@ -13,7 +13,7 @@
             </div>
             <div>
                 <span class="text-lg font-semibold">{{$produk->nama_produk}}</span>
-                <form action="{{ route('review.store') }}" method="POST">
+                <form action="{{ route('review-store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="id_customer" value="{{ auth()->user()->id }}">
                     <input type="hidden" name="id_produk" value="{{ $produk->id }}">

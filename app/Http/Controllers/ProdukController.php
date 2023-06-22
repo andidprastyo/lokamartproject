@@ -164,7 +164,16 @@ class ProdukController extends Controller
      */
     public function destroy(Produk $produk)
     {
-        $produk->delete();
+        try {
+            $produk->delete();
+            } 
+        catch (\Illuminate\Database\QueryException $e) {
+        
+                if($e->getCode() == "23000"){ //23000 is sql code for integrity constraint violation
+                    return redirect()->route('listorder');
+                }
+            }
+        
 
         return redirect()->back()->with('success', 'Produk berhasil dihapus.');
     }
