@@ -49,7 +49,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        //
+
     }
 
     /**

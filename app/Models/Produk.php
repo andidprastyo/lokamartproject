@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Maize\Markable\Markable;
 use Maize\Markable\Models\Favorite;
+use App\Models\Review;
 
 class Produk extends Model
 {

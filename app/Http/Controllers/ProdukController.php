@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Stringable;
 
 class ProdukController extends Controller
@@ -19,25 +20,55 @@ class ProdukController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
-            $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with(['user','review'])
-            ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->get();
-            // ->paginate(20);
+        if ($request->has('kategori')) {
+            if ($request->has('search')) {
+                $produk = Produk::where(function ($query) use ($request) {
+                    $query->where('id_kategori', $request->kategori)
+                        ->orWhere('nama_produk', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('desk_produk', 'LIKE', '%' . $request->search . '%');
+                })
+                    ->with('review')
+                    ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
+                    ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
+                    ->groupBy('produk.id')
+                    ->get();
+                // ->paginate(20);
+            } else {
+
+                $produk = Produk::where('id_kategori', $request->kategori)->with('review')
+                ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
+                ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
+                ->groupBy('produk.id')
+                ->get();
+                $kategori = Kategori::all();
+
+                return view('homepage',compact(['produk', 'kategori']));
+                // $rating = Review::where('id_produk', $produk->id)->get()->avg('rating');
+                // $produk =  Produk::paginate(20);
+            }   
         } else {
-            $produk = Produk::with('review')->get();
-            $rating = Review::with('produk')->get()[0]->produk;
-            // $produk =  Produk::paginate(20);
-        }   
+            if ($request->has('search')) {
+                // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
+                $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('review')
+                ->orWhere('desk_produk','LIKE','%' .$request->search. '%')
+                ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
+                ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
+                ->groupBy('produk.id')->get();
+                // ->paginate(20);
+            } else {
+                $produk = Produk::with('review')
+                ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
+                ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
+                ->groupBy('produk.id')
+                ->get();
+            }
+            
+        }
+        $kategori = Kategori::all();
 
-        return view('homepage',compact(['produk', 'rating']));
+        return view('homepage',compact(['produk', 'kategori']));
     }
 
-    public function rating(Produk $produk){
-        $rating = Review::where('id_produk', $produk->id)->get()->avg('rating');
-        // dd($rating);
-        return view('homepage',compact('rating'));
-    }
     /**
      * Show the form for creating a new resource.
      */

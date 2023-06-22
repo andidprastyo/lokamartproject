@@ -6,8 +6,10 @@ use App\Models\Order;
 use App\Models\Order_detail;
 use App\Models\Produk;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -156,7 +158,7 @@ class OrderController extends Controller
         $detail_pesanan = Order_detail::where('order_id', $pesanan_id)->get();
         foreach ($detail_pesanan as $dp) {
             $produk = Produk::where('id', $dp->produk_id)->first();
-            $dp->qty = $request->input('qty');
+            $dp->qty = $request->input('qty'.$dp->id);
             $dp->subtotal = $produk->harga_produk * $dp->qty;
             $dp->update();
             $produk->stok_produk = $produk->stok_produk - $dp->qty;
@@ -201,5 +203,23 @@ class OrderController extends Controller
                 $pesanan->update(['paid' => 'paid']);
             }
         }
+    }
+
+    public function listorder()
+    {
+        $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
+        $currentDay = Carbon::now()->format('l'); // Get the day of the week
+        $produk = Produk::with('user')->where('id_owner', Auth::user()->id)->get();
+        foreach($produk as $p){
+        $detail_pesanan = Order_detail::with('produk')->where('produk_id', $p->id)->get();
+            foreach($detail_pesanan as $dp){
+            $order = Order::with('order_detail.produk')->where('id', $dp->order_id)->get();
+            $addresses = DB::table('order')
+            ->selectRaw("CONCAT(provinsi, ', ', kota, ', ', kecamatan, ', ', kelurahan, ', ', detail_alamat) AS alamat")
+            ->get();
+            }
+        }
+
+        return view('owner.listorderan', compact(['currentDate', 'currentDay', 'produk', 'detail_pesanan', 'order', 'addresses']));
     }
 }

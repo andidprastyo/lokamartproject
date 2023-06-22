@@ -26,7 +26,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
 <body class="antialiased flex flex-col ">
 
 <nav class="bg-amber-400 z-50 h-16 border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-  <div class="max-w-screen-xl flex flex-wrap items-center mx-auto my-auto">
+  <div class="max-w-screen-xl flex flex-wrap items-center my-auto justify-between">
     <a href="#" class="flex items-center ml-16 mt-3">
       <span class="self-center text-3xl font-semibold whitespace-nowrap" style="color: #00a8c8">Loka</span>
       <span class="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">Mart</span>
@@ -35,20 +35,24 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
       <span class="sr-only">Open main menu</span>
       <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
     </button>
-    <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+    {{-- <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
       <ul class="flex flex-col font-medium p-4 md:p-0 mt-3 ml-20  border border-gray-100 drop-shadow-xl rounded-lg bg-gray-50 md:flex-row md:space-x-8  md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         <li>
             <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center text-lg justify-between h-10 py-2 px-5 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:px-5 md:py-2 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">All Categories <svg class="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
             <!-- Dropdown menu -->
             <div id="dropdownNavbar" class="z-50 w-48 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-2  text-xl text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                  <li>
-                    <a href="#" class="block text-lg px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Foods</a>
-                  </li>
-                  <li>
-                    <a href="#" class="block text-lg px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Drinks</a>
-                  </li>
-                </ul>
+              <ul class="py-2 text-xl text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                <li>
+                    <form method="GET" action="{{ route('produk.index') }}">
+                        <select name="kategori" onchange="pindahKeHalaman(this)" class="block text-lg px-5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <option value="">Semua Kategori</option>
+                            @foreach ($kategori as $k)
+                                <option value="{{ $k->id }}" @if ($k->id == Request::get('kategori')) selected @endif>{{ $k->nama_kategori }}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </li>
+            </ul>
             </div>
         </li>
       </ul>
@@ -63,7 +67,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
             <input id="default-search" class="block w-96 h-10 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required name="search" {{ Request::get('search') }}>
         </div>
       </form>
-    </div>
+    </div> --}}
     <div class="flex">
       <div class="ml-20 mt-5">
         <a href="{{ route('wishlist') }}"><img src="{{asset('img/heart.svg')}}" alt=""></a>
@@ -85,6 +89,9 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
           <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
             <li>
               <a href="{{route('user.edit', auth()->user()->id )}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit Profile</a>
+            </li>
+            <li>
+              <a href="{{ route('pay')}}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Histori Pesanan</a>
             </li>
             <li>
               <a href="{{ route('logout') }}"
@@ -244,6 +251,18 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
 </footer>
 <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+<script>
+  function pindahKeHalaman(selectElement) {
+    var selectedValue = selectElement.value;
+    if (selectedValue === "") {
+      // Pilihan "Semua Kategori" dipilih, pindahkan ke halaman homepage.blade.php
+      window.location.href = "{{ route('home') }}";
+    } else {
+      // Pilihan lain yang dipilih, submit form (misalnya untuk filter berdasarkan kategori)
+      selectElement.form.submit();
+    }
+  }
+</script>
 </body>
 
 </html>

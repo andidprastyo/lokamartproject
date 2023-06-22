@@ -51,7 +51,14 @@
                                         {{ $dp->subtotal }}
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        <a href="/review/create/{{ $dp->produk_id }}">
+                                        {{-- <form action="{{ route('review.create', $dp->produk->id) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">
+                                                {{ Session::has('reviewed_products') && in_array($dp->produk->id, Session::get('reviewed_products')) ? 'Disable Review' : 'Enable Review' }}
+                                            </button>
+                                        </form> --}}
+                                        <a href="{{ route('review.create'.$dp->produk_id) }}">
                                             <button type="button"
                                                 class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Review</button>
                                         </a>
