@@ -18,7 +18,8 @@ class Review extends Model
             'id_customer',
             'id_produk',
             'rating',
-            'komentar'
+            'komentar',
+            'id_order_detail',
     ];
 
     public function user(){
@@ -28,4 +29,10 @@ class Review extends Model
     public function produk(){
         return $this->belongsTo(Produk::class, 'id_produk', 'id');
     }
+
+    public function order_detail(){
+        return $this->belongsTo(Order_detail::class, 'id_order_detail', 'id');
+    }
+
+
 }

@@ -58,10 +58,15 @@
                                                 {{ Session::has('reviewed_products') && in_array($dp->produk->id, Session::get('reviewed_products')) ? 'Disable Review' : 'Enable Review' }}
                                             </button>
                                         </form> --}}
-                                        <a href="{{ route('review.create'.$dp->produk_id) }}">
+                                        @if($dp->review == 'unreviewed')
+                                        <a href="{{ route('review.create',$dp->id) }}">
                                             <button type="button"
                                                 class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Review</button>
                                         </a>
+                                        @else
+                                        
+                                        
+                                        @endif
                                     </td>
                                 </tr>
                             @endif

@@ -17,6 +17,7 @@
                     @csrf
                     <input type="hidden" name="id_customer" value="{{ auth()->user()->id }}">
                     <input type="hidden" name="id_produk" value="{{ $produk->id }}">
+                    <input type="hidden" name="id_order_detail" value="{{ $order_detail->id }}">
                     <div class="rating-box my-3 items-center">
                         <div class="stars gap-[10px] flex">
                                 <i class="fa-solid fa-star" onclick="changeRating(1)">

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('order');
             $table->integer('qty');
             $table->integer('subtotal');
+            $table->enum('review',['reviewed','unreviewed'])->default('unreviewed');
             $table->timestamps();
         });
     }
