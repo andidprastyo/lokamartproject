@@ -62,7 +62,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/keranjang/{id}', [OrderController::class, 'delete']);
     Route::post('/check-out',[OrderController::class, 'checkout'])->name('checkout');
     Route::get('/pesanan',[OrderController::class, 'pay'])->name('pay');
-    Route::post('/midtrans-callingback',[OrderController::class, 'callback']);
     Route::get('user', [UserController::class, 'edit'])->name('user.edit');
     Route::resource('user', UserController::class);
     Route::resource('order', OrderController::class);

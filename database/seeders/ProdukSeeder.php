@@ -20,7 +20,7 @@ class ProdukSeeder extends Seeder
                 'id_kategori' => 1,
                 'nama_produk' => 'Rengginang',
                 'desk_produk' => 'lorem ipsum dolor sit amet, consectetur adipis',
-                'gambar_produk' => 'public/img/produk/rengginang.jpe',
+                'gambar_produk' => 'public/img/produk/produk.png',
                 'stok_produk' => 10,
                 'harga_produk' => 20000,
                 'slug' => "rengginang"
