@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Laravel\Scout\Searchable;
 use Maize\Markable\Markable;
 use Maize\Markable\Models\Favorite;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Searchable, Markable;
+    use HasApiTokens, HasFactory, Notifiable, Markable;
 
     /**
      * The attributes that are mass assignable.
