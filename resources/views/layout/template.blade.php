@@ -126,6 +126,11 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Terms & Conditions</a>
     </div>
+    @if(auth()->user()->role == 'admin')
+    <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
+      <a href="{{route('adminuser')}}">Dashboard Admin</a>
+    </div>
+    @endif
     <div class="ml-9">
       <a href=""><img src="{{asset('img/instagram.svg')}}" alt=""></a>
     </div>
