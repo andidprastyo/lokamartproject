@@ -51,10 +51,15 @@
                                         {{ $dp->subtotal }}
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        <a href="/review/create/{{ $dp->produk_id }}">
+                                        @if($dp->review == 'unreviewed')
+                                        <a href="{{ route('review-create',$dp->id) }}">
                                             <button type="button"
                                                 class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Review</button>
                                         </a>
+                                        @else
+                                        
+                                        
+                                        @endif
                                     </td>
                                 </tr>
                             @endif
@@ -65,19 +70,18 @@
                     <div class="px-10 my-auto font-bold">Total Pesanan</div>
                     <div class="px-10 my-auto font-bold">{{ $p->total }}</div>
                     <div class="pl-6 pr-2">
-                        <button id="pay-button{{ $p->id }}" type="button"
+                        <button id="paybuttontest{{ $p->id }}"
                             class="text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Checkout</button>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
-@endsection
-
-@foreach ($pesanan as $p)
+    @foreach ($pesanan as $p)
 <script type="text/javascript">
     // For example trigger on button clicked, or any time you need
-    var payButton{{ $p->id }} = document.getElementById('pay-button{{ $p->id }}');
+    let payButton{{ $p->id }} = document.querySelector('#paybuttontest{{ $p->id }}');
+
     payButton{{ $p->id }}.addEventListener('click', function() {
         // Trigger snap popup. @TODO: Replace TRANSACTION_TOKEN_HERE with your transaction token
         console.log('clickeds');
@@ -85,7 +89,7 @@
             onSuccess: function(result) {
                 /* You may add your own implementation here */
                 // alert("payment success!");
-                window.location.href = '/pesanan'
+                window.location.href = '/'
                 console.log(result);
             },
             onPending: function(result) {
@@ -110,3 +114,4 @@
     // }
 </script>
 @endforeach
+@endsection

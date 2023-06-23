@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_customer')->constrained('users')->onDelete('restrict')->onUpdate('cascade');
             $table->foreignId('id_produk')->constrained('produk')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('id_order_detail')->constrained('order_details')->onDelete('restrict')->onUpdate('cascade');
             $table->float('rating');
             $table->String('komentar');
             $table->timestamps();

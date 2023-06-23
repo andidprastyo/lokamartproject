@@ -12,4 +12,14 @@ class Order_detail extends Model
     {
         return $this->belongsTo(Produk::class, 'produk_id', 'id');
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function review(){
+        return $this->hasOne(Review::class, 'id', 'id_order_detail');
+    }
+
 }

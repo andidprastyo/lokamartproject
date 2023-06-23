@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/scout": "^10.2",
         "laravel/tinker": "^2.8",
+        "maize-tech/laravel-markable": "^2.0",
         "midtrans/midtrans-php": "^2.5",
         "realrashid/sweet-alert": "^7.0"
     },

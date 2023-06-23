@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     /**
      * Handle an authentication attempt.
-     */
+     */   
     public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -19,6 +19,9 @@ class LoginController extends Controller
         ]);
  
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->role === 'admin') {
+                return redirect()->intended('/admincus');
+            }
             $request->session()->regenerate();
  
             return redirect()->intended('home');
@@ -30,9 +33,7 @@ class LoginController extends Controller
     }
 
     public function logout(Request $request): RedirectResponse
-    {
-        Auth::logout();
- 
+    { 
         request()->session()->invalidate();
  
         request()->session()->regenerateToken();

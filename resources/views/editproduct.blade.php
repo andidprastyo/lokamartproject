@@ -1,9 +1,9 @@
 @extends('layout.template')
 @section('content')
     <div class="my-20 mx-24 w-96">
-        <h1 class="text-3xl font-bold">Add your product</h1>
+        <h1 class="text-3xl font-bold">Edit your product</h1>
         <span class="mt-3">Complate Your Detail Information Product</p>
-            <form action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
+            {{-- <form action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <input type="hidden" name="id_owner" value="{{ auth()->user()->id }}">
@@ -34,6 +34,48 @@
                     <input
                         class="block w-full text-sm text-gray-900 border border-blue-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                         aria-describedby="user_avatar_help" id="user_avatar" type="file" name="gambar_produk">
+                </div>
+                <div class="flex justify-between mt-5">
+                    <button type="button"
+                        class="drop-shadow-lg focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Reset</button>
+                    <button type="button"
+                        class="drop-shadow-lg text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Back
+                        to Homepage</button>
+                    <button type="submit"
+                        class="drop-shadow-lg focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 ">Save</button>
+                </div>
+            </form> --}}
+            <form action="{{ route('produk.update', $produk->id) }}" method="POST" enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
+                <input type="hidden" name="id_owner" value="{{ auth()->user()->id }}">
+                <div class="flex flex-col gap-3 mt-3 appearance-none">
+                    <input type="text" id="nama_produk"
+                        class="bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 form-control @error('nama_produk') is-invalid @enderror"
+                        name="nama_produk" value="{{ $produk->nama_produk }}" placeholder="Nama Produk">
+                    <div class="relative">
+                        <select
+                            class="appearance-none w-96 bg-white border border-blue-300 hover:border-blue-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                            name="id_kategori" id="kategori">
+                            <option value="{{ $produk->id_kategori }}" selected disabled>{{ $produk->kategori->nama_kategori }}</option>
+                            @foreach ($kategori as $ktr)
+                            <option value="{{ $ktr->id }}">{{ $ktr->nama_kategori }}</option>
+                	        @endforeach
+
+                        </select>
+                    </div>
+                    <input type="number" id="stok_produk"
+                        class=" bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 appearance-none form-control @error('stok_produk') is-invalid @enderror"
+                        name="stok_produk" value="{{ $produk->stok_produk }}" placeholder="Stok">
+                    <input type="number" id="harga_produk"
+                        class=" bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 appearance-none form-control @error('harga_produk') is-invalid @enderror"
+                        name="harga_produk" value="{{ $produk->harga_produk }}" placeholder="Harga">
+                    <textarea id="message" rows="4"
+                        class="bg-gray-50 border border-blue-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 resize-noneform-control @error('desk_produk') is-invalid @enderror"
+                        name="desk_produk" placeholder="Deskripsi produk">{{ $produk->desk_produk }}</textarea>
+                    <input
+                        class="block w-full text-sm text-gray-900 border border-blue-300 rounded-lg cursor-pointer bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                        aria-describedby="user_avatar_help" id="user_avatar" type="file" name="gambar_produk" value="{{ $produk->gambar_produk }}">
                 </div>
                 <div class="flex justify-between mt-5">
                     <button type="button"

@@ -1,8 +1,15 @@
 @extends('layout.template')
 @section('content')
     <div class="mt-20 ml-20 flex flex-col">
+        @if(empty($pesanan))
+        <div class="mx-auto flex flex-col text-center my-20">
+            <span class="text-3xl font-bold"> Your Cart is <span class="text-amber-400">Empty</span></span>
+            <span class="text-xl mt-2">Go to shop and add your product</span>
+            <a href="{{ route('home') }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-10 mb-28 w-[10rem] mx-auto ">Back to Shop</button></a>
+        </div>
+        @endif
+        @if(!empty($pesanan))
         <span class="text-3xl mb-3 font-bold">Shopping Cart</span>
-        @if (!empty($pesanan))
             <span class="mb-5">There are <span class="text-green-500">{{ count($detail_pesanan) }} Product </span>in your
                 cart</span>
             <div class="flex mb-8">
@@ -74,7 +81,7 @@
                                         <td class="px-6 py-4" style="padding-left: 56px">
                                             <div class="flex items-center space-x-3" id="quantity">
                                                 <div>
-                                                    <input type="number" name="qty" id="qtyInput{{ $dp->id }}"
+                                                    <input type="number" id="qtyInput{{ $dp->id }}"
                                                         class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                         placeholder="1" required min="1" max="1000"
                                                         onchange="changeQty ({{ $dp->id }})">
@@ -110,7 +117,9 @@
                     <form action="{{ route('checkout') }}" method="post">
                         @csrf
                         {{-- input hidden --}}
-                        <input type="hidden" name="qty" value="">
+                        @foreach ($detail_pesanan as $dp)  
+                        <input type="hidden" name="qty{{$dp->id}}" id="qtyHidden{{$dp->id}}" value="">
+                        @endforeach
                         <span class="font-bold text-md">Shipping Details</span>
                         <div class="grid gap-3 mb-5 md:grid-cols-2">
                             <div>
@@ -206,30 +215,29 @@
             </div>
     </div>
     @endif
-    </div>
-@endsection
-
-<script>
-    // function changeQty(id){
-    //     let qty = document.getElementById('qty'+ id);
-    //     qty.text
-
-    // }
-    $(document).ready(function() {
-        // Menangkap perubahan pada elemen quantity
-        $('#qtyInput').on('change', function() {
-            // Mendapatkan nilai quantity yang baru
-            var newQuantity = parseInt($(this).val());
-
+</div>
+    
+    {{-- <script>
+        // function changeQty(id){
+            //     let qty = document.getElementById('qty'+ id);
+            //     qty.text
+            
+            // }
+            $(document).ready(function() {
+                // Menangkap perubahan pada elemen quantity
+                $('#qtyInput${id}').on('change', function() {
+                    // Mendapatkan nilai quantity yang baru
+                    var newQuantity = parseInt($(this).val());
+                    
             // Menggunakan nilai quantity yang baru sesuai kebutuhan, misalnya:
             // Menampilkan nilai quantity di console
             console.log(newQuantity);
-
+            
             // Mengirim nilai quantity yang baru ke server melalui permintaan AJAX
             // atau mengupdate nilai quantity pada elemen lain di tampilan
         });
     });
-</script>
+</script> --}}
 
 <script>
     function changeQty(id) {
@@ -239,15 +247,19 @@
         let price = document.getElementById(`price${id}`)
         let subtotinput = document.getElementById(`subtotinput${id}`)
         let sum_tot = document.getElementById(`sum-tot`)
+        var hiddenInput = document.getElementById(`qtyHidden${id}`);
+        
+        console.log(hiddenInput);
+        hiddenInput.value = qtyinput.value;
 
         subtotal.innerHTML = parseFloat(qtyinput.value) * parseFloat(price.innerHTML)
         subtotinput.value = subtotal.innerHTML
-
-
+        
+        
         let total_all = document.querySelectorAll('.subtotal')
-
+        
         total_all = [...total_all]
-
+        
         total_all = total_all.map(element => parseFloat(element.innerHTML))
 
         total_all = total_all.reduce((total, each) => total + each)
@@ -256,16 +268,18 @@
     }
 </script>
 
+@endsection
+
 {{-- <script>
-        // jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    // jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
     $.('#quantity').each(function() {
-      var spinner = $.(this),
+        var spinner = $.(this),
         input = $.('#first_product'),
         btnUp = $.('#buttonUp'),
         btnDown = $.('#buttonDown'),
         min = input.attr('min'),
         max = input.attr('max');
-
+        
       btnUp.click(function() {
         var oldValue = parseFloat(input.val());
         if (oldValue >= max) {

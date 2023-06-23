@@ -20,7 +20,9 @@
         <h4 class="w-[27rem] mt-2">
             Are you an UMKM owner looking to boost your sales and expand your customer base? Look no further! Join the incredible world of online shopping and witness your business soar to new heights!
         </h4>
+        @if(Auth::check() && Auth::user()->role !== 'admin' || Auth::guest())
         <a href="{{ route('ownerregister') }}"><button type="button" class="mt-7 w-40 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg font-bold text-md px-5 py-2.5 mr-2 mb-2 " >Let's Join Now</button></a>
+        @endif
     </div>
     <div class="mr-10 flex gap-[2rem]">
         <img class="w-48 h-52" src="{{asset('img/owner1.png')}}" alt="">

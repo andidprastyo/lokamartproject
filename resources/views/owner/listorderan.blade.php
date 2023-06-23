@@ -1,4 +1,4 @@
-@extends('layout.admin')
+@extends('layout.template')
 @section('content')
 <div class=" mx-auto mb-5 mt-10 py-5 px-5 w-[150vh] overflow-x-auto shadow-md bg-white h-[80vh] rounded-[20px]">
     <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900">
@@ -43,6 +43,7 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach ($order as $o)
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="w-4 p-4">
                         <div class="flex items-center">
@@ -51,24 +52,30 @@
                         </div>
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Rengginang
+                        @foreach ($o->order_detail as $od)
+                            {{$od->produk->nama_produk}}<br>
+                        @endforeach
+                        
                     </th>
                     <td class="px-6 py-4">
-                        2
+                        @foreach ($o->order_detail as $od)
+                            {{$od->qty}}<br>
+                        @endforeach
                     </td>
                     <td class="px-6 py-4">
-                        $50
+                        {{ $o->total }}
                     </td>
                     <td class="px-6 py-4">
-                        Jl. Soekarno Hatta 2
+                        {{ $addresses }}
                     </td>
                     <td class="px-6 py-4">
-                        Ryan Syaputra
+                        {{ $o->nama_penerima }}
                     </td>
                     <td class="px-6 py-4">
-                        081217246754
+                        {{ $o->notelp_penerima }}
                     </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

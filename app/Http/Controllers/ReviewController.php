@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReviewRequest;
+use App\Models\Order_detail;
 use App\Models\Review;
 use App\Models\Produk;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 class ReviewController extends Controller
@@ -22,8 +24,12 @@ class ReviewController extends Controller
      */
     public function create($id)
     {
-        $produk = Produk::find($id);
-        return view('review', compact('produk'));
+        $order_detail = Order_detail::where('id', $id)->first();
+        // dd($order_detail);
+        // $produk = Produk::where('id','=',$order_detail->produk_id);
+        $produk = DB::table('produk')->where('id',$order_detail->produk_id)->first();
+        // dd($produk);
+        return view('review', compact(['produk','order_detail']));
     }
 
     /**
@@ -31,7 +37,13 @@ class ReviewController extends Controller
      */
     public function store(ReviewRequest $request)
     {
+        // $order_det = DB::table('order_details')->where('id', '=', $request->id_order_detail )->first();
+        $order_det = Order_detail::findOrFail($request->id_order_detail);
+        $order_det->review = "reviewed";
+        $order_det->update();
+        
         $data = $request->validated();
+        // dd($data);
         Review::create($data);
         return redirect()->route('home');
     }
@@ -49,7 +61,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        //
+
     }
 
     /**

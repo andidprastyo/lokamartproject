@@ -26,6 +26,8 @@ class ReviewRequest extends FormRequest
             'id_produk' => 'required',
             'rating' => 'required',
             'komentar' => 'required',
+            'id_order_detail' => 'required',
+            
         ];
     }
 }
