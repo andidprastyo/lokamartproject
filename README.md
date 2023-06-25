@@ -70,19 +70,19 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
  1. Clone this repository by copying the repository url 
   
  2. After cloning, type in the terminal the following command. The purpose is that APP KEY updates automatically and vendors will be installed and .env will be formed 
-   ```shell
+      ```shell
          composer update 
-   ```    
-   ```shell 
+      ```    
+      ```shell 
          cp .env.example .env 
-   ```    
-   ```shell 
+      ```    
+      ```shell 
          php artisan key:generate 
-   ``` 
+      ``` 
  3. Then create a database with the same name as in the .env file and do laravel migrations to create data tables
-   ```shell
+      ```shell
          php artisan migrate:fresh --seed
-   ``` 
+      ``` 
  4. Install the following packages 
      - Laravel Debugbar -> To help debugging process 
       ```shell 
