@@ -7,7 +7,7 @@
         <form class="justify-center mt-auto mb-auto px-4 py-6 h-400" method="POST" action="{{ route('login') }}">
           @csrf
         <div class="mb-6">
-          <label for="email" class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email or phone mobile number</label>
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900/50 dark:text-white">Email</label>
           <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="" required autofocus>
         </div>
         <div class="mb-6">

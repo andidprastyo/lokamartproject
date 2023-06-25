@@ -31,7 +31,7 @@
     <div class="h-full px-3 py-4 overflow-y-auto dark:bg-gray-800">
         <div class="flex flex-col items-center mt-6 -mx-2">
             <img class="object-cover w-14 h-14 mx-2 rounded-full" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" alt="avatar">
-            <p class="mx-2 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-400">Admin Shope</p>
+            <p class="mx-2 mt-1 text-lg font-semibold text-gray-600 dark:text-gray-400">{{auth()->user()->name}}</p>
         </div>
        <ul class="mt-10 space-y-2 font-medium">
         <li>
@@ -47,10 +47,9 @@
             </a>
          </li>
           <li>
-             <a href="{{ route('logout') }}" onclick="event.preventDefault();
-             document.getElementById('logout-form').submit();" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+             <a href="{{ route('home') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
-                <span class="flex-1 ml-3 whitespace-nowrap">Log Out</span>
+                <span class="flex-1 ml-3 whitespace-nowrap">Homepage</span>
              </a>
              <form id="logout-form" action="/logout" method="POST"
                        style="display: none;">.
