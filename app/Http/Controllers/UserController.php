@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Http\Request;
 use App\Models\User;
-use GuzzleHttp\Psr7\Request as Psr7Request;
-use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class UserController extends Controller
 {
@@ -31,6 +27,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    # Fungsi store digunakan untuk menerima inputan data user dan menyimpannya ke database
     public function store(UserRequest $request)
     {
         $data = new User;
@@ -43,6 +41,7 @@ class UserController extends Controller
         return redirect()->route('login');
     }
 
+    # Fungsi storeOwner digunakan untuk menerima inputan data user dengan role owner dan menyimpannya ke database
     public function storeOwner(UserRequest $request)
     {
         $data = new User;
@@ -66,6 +65,8 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
+    # Fungsi edit digunakan untuk mendapatkan data user yang sesuai dengan parameter dan menampilkan pada editprofile
     public function edit(User $user)
     {
         return view('editprofile',compact('user'));
@@ -74,6 +75,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
+    # Fungsi update digunakan untuk menerima inputan editprofile dan mengupdate data user sesuai parameter
     public function update(UserRequest $request, User $user)
     {
         $data = $request->validated();
@@ -85,6 +88,8 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+
+    # Fungsi destroy digunakan untuk menghapus data user dari dataabase
     public function destroy(User $user)
     {
         $user->delete();

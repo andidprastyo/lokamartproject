@@ -6,7 +6,6 @@ use App\Models\Order;
 use App\Models\Order_detail;
 use App\Models\Produk;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,10 +14,10 @@ class OrderController extends Controller
 {
     public function index($id)
     {
-        $produk = Produk::find($id);
-        return view('layouts.user.detailProduk', compact(['produk']));
+        //
     }
 
+    # Fungsi pesan digunakan untuk menangkap data produk yang telah user masukkan ke dalam cart
     public function pesan(Request $request, $id)
     {
         $produk = Produk::find($id);
@@ -78,14 +77,12 @@ class OrderController extends Controller
         return redirect('/home');
     }
     
+    # Fungsi keranjang digunakan untuk mendapat & menampilkan data produk yang telah user masukkan ke dalam cart
     public function keranjang()
     {
         $pesanan = Order::where('user_id', Auth::user()->id)->where('status', 'keranjang')->first();
 
         if (!empty($pesanan)) {
-            // $detail_pesanan = Order_detail::where('order_id',$pesanan->id)->get();
-            // $produk = Produk::findOrFail($detail_pesanan->produk_id);
-            // $owner = User::where('id',$produk->id_owner)->get();
             $detail_pesanan = Order_detail::where('order_id', $pesanan->id)->get();
             $produk = [];
             $owner = [];
@@ -101,6 +98,7 @@ class OrderController extends Controller
         return view('cart', compact('pesanan'));
     }
 
+    # Fungsi destroy digunakan untuk menghapus produk dari cart
     public function destroy($id)
     {
         $detail_pesanan = Order_detail::where('id', $id)->first();
@@ -115,6 +113,7 @@ class OrderController extends Controller
         return redirect('/cart');
     }
 
+    # Fungsi delete digunakan untuk menghapus produk dari cart
     public function delete($id)
     {
         $detail_pesanan = Order_detail::where('id', $id)->first();
@@ -129,6 +128,7 @@ class OrderController extends Controller
         return redirect('/cart');
     }
 
+    # Fungsi checkout digunakan untuk menerima inputan nama, notelp, alamat penerima dan catatan order, dan menerima perubahan quantity, lalu mengupdate data pesanan
     public function checkout(Request $request)
     {
         $pesanan =  Order::where('user_id', Auth::user()->id)->where('status', "keranjang")->first();
@@ -174,7 +174,6 @@ class OrderController extends Controller
             'customer_details' => array(
                 'name' => $request->nama,
                 'email' => Auth::user()->email,
-                // 'phone' => $request->notelp_penerima,
             ),
         );
         $snapToken = \Midtrans\Snap::getSnapToken($params);
@@ -184,6 +183,8 @@ class OrderController extends Controller
         $pesanan->update();
         return redirect()->route('pay');
     }
+
+    # Fungsi pay digunakan untuk mendapatkan & menampilkan data pesanan 
     public function pay()
     {
         $pesanan = Order::where('user_id', Auth::user()->id)->where('paid', 'unpaid')->get();
@@ -193,6 +194,8 @@ class OrderController extends Controller
 
         return view('historipesanan', compact(['detail_pesanan', 'pesanan']));
     }
+
+    # Fungsi callback digunakan unntuk mengirim data pesanan ke midtrans
     public function callback(Request $request)
     {
         $serverKey = config('midtrans.server_key');
@@ -205,6 +208,7 @@ class OrderController extends Controller
         }
     }
 
+    # Fungsi listorder digunakan untuk mendapatkan dan menampilkan data pesananan yang dilakukan user pada halaman owner, sehingga owner dapat mengetahui pesaanannya
     public function listorder()
     {
         $produk = Produk::with('user')->where('id_owner', Auth::user()->id)->get();

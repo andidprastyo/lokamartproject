@@ -45,10 +45,10 @@
                                         <div>{{ $dp->qty }}</div>
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        {{ $dp->produk->harga_produk }}
+                                        @currency($dp->produk->harga_produk)
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        {{ $dp->subtotal }}
+                                        @currency($dp->subtotal)
                                     </td>
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                         @if($dp->review == 'unreviewed')
@@ -68,7 +68,7 @@
                 </table>
                 <div class=" w-7/12 py-5 flex justify-end border-t-0 border border-black">
                     <div class="px-10 my-auto font-bold">Total Pesanan</div>
-                    <div class="px-10 my-auto font-bold">{{ $p->total }}</div>
+                    <div class="px-10 my-auto font-bold">@currency($p->total)</div>
                     <div class="pl-6 pr-2">
                         <button id="paybuttontest{{ $p->id }}"
                             class="text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Checkout</button>
