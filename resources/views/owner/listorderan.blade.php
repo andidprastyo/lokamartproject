@@ -95,7 +95,7 @@
                                 @endforeach
                             </td>
                             <td class="px-6 py-4">
-                                {{ $o->total }}
+                                @currency($o->total)
                             </td>
                             <td class="px-6 py-4">
                                 {{ $addresses }}
