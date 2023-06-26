@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,6 +11,8 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    # Fungsi index digunakan untuk mendapatkan data tanggal & hari yang akan ditampilkan pada halaman admin
     public function index()
     {
         $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
@@ -23,6 +24,8 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+    # Fungsi customer digunakan untuk mendapatkan data user yang memiliki role user(disini sebagai customer)
     public function customer()
     {
         $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
@@ -31,21 +34,24 @@ class AdminController extends Controller
         return view('admin.admincustomer', compact('user', 'currentDate', 'currentDay'));
     }
 
+    # Fungsi searchUser digunakan untuk mendapatkan data user yang memiliki role user saat dilakukan pencarian menggunakan search berdasarkan nama atau email
     public function searchUser(Request $request){
         $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
         $currentDay = Carbon::now()->format('l'); // Get the day of the week
         if ($request->has('search')) {
-            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
             $user = User::where('name','LIKE','%' .$request->search. '%')->orWhere('email','LIKE','%' .$request->search. '%')->get();
+            #Jika ingin menggunakan paginate, bisa menguncomment kode paginate dibawah
             // ->paginate(20);
         } else {
             $user = User::where('role', 'user')->get();
-            // $produk =  Produk::paginate(20);
+            #Jika ingin menggunakan paginate, bisa menguncomment kode paginate dibawah
+            // $user =  User::where('role', 'user')->paginate(20);
         }
         return view('admin.admincustomer', compact('user', 'currentDate', 'currentDay'));
 
     }
 
+    # Fungsi owner digunakan untuk mendapatkan data user yang memiliki role owner
     public function owner()
     {
         $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
@@ -54,41 +60,23 @@ class AdminController extends Controller
         return view('admin.adminowner', compact('user', 'currentDate', 'currentDay'));
     }
 
+    # Fungsi searchUser digunakan untuk mendapatkan data user yang memiliki role owner saat dilakukan pencarian menggunakan search berdasarka nama atau email
     public function searchOwner(Request $request){
         $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
         $currentDay = Carbon::now()->format('l'); // Get the day of the week
         if ($request->has('search')) {
-            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
             $user = User::where('name','LIKE','%' .$request->search. '%')->orWhere('email','LIKE','%' .$request->search. '%')->get();
+            #Jika ingin menggunakan paginate, bisa menguncomment kode paginate dibawah
             // ->paginate(20);
         } else {
             $user = User::where('role', 'owner')->get();
-            // $produk =  Produk::paginate(20);
+            #Jika ingin menggunakan paginate, bisa menguncomment kode paginate dibawah
+            // $user =  User::where('role', 'user')->paginate(20);
         }
         return view('admin.admincustomer', compact('user', 'currentDate', 'currentDay'));
     }
 
-    public function order()
-    {
-        $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
-        $currentDay = Carbon::now()->format('l'); // Get the day of the week
-        $order = Order::all();
-        return view('admin.adminorder', compact('order', 'currentDate', 'currentDay'));
-    }
 
-    public function searchOrder(Request $request){
-        $currentDate = Carbon::now()->format('d-m-Y'); // Format the date as desired
-        $currentDay = Carbon::now()->format('l'); // Get the day of the week
-        if ($request->has('search')) {
-            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
-            $user = User::where('name','LIKE','%' .$request->search. '%')->orWhere('email','LIKE','%' .$request->search. '%')->get();
-            // ->paginate(20);
-        } else {
-            $user = User::where('role', 'owner')->get();
-            // $produk =  Produk::paginate(20);
-        }
-        return view('admin.admincustomer', compact('user', 'currentDate', 'currentDay'));
-    }
     /**
      * Store a newly created resource in storage.
      */

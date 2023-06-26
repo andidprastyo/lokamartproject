@@ -7,17 +7,17 @@ use App\Http\Requests\ProdukRequest;
 use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Review;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Stringable;
 
 class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    # Fungsi index digunakan untuk mendapatkan data produk dan menampilkannya pada halaman homepage
     public function index(Request $request)
     {
         if ($request->has('kategori')) {
@@ -32,7 +32,6 @@ class ProdukController extends Controller
                     ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
                     ->groupBy('produk.id')
                     ->get();
-                // ->paginate(20);
             } else {
 
                 $produk = Produk::where('id_kategori', $request->kategori)->with('review')
@@ -43,18 +42,14 @@ class ProdukController extends Controller
                 $kategori = Kategori::all();
 
                 return view('homepage',compact(['produk', 'kategori']));
-                // $rating = Review::where('id_produk', $produk->id)->get()->avg('rating');
-                // $produk =  Produk::paginate(20);
             }   
         } else {
             if ($request->has('search')) {
-                // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
                 $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')->with('review')
                 ->orWhere('desk_produk','LIKE','%' .$request->search. '%')
                 ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
                 ->leftJoin('review', 'produk.id', '=', 'review.id_produk')
                 ->groupBy('produk.id')->get();
-                // ->paginate(20);
             } else {
                 $produk = Produk::with('review')
                 ->select('produk.*', DB::raw('AVG(review.rating) as average_rating'))
@@ -72,40 +67,27 @@ class ProdukController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+     # Fungsi create digunakan untuk mendapatkan data kategori dan menampilkannya sekaligus sebagai redirect ke halaman addproduct
     public function create()
     {
         $kategori = Kategori::all();
-        return view('addproduct', compact('kategori'));
+        return view('owner.addproduct', compact('kategori'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
+    # Fungsi store digunakan untuk menerima inputan dan menyimpan inputan data ke database
     public function store(ProdukRequest $request)
     {
-        // $filename= date('YmdHi').$data->getClientOriginalName();
-        // $imagePath = $data->file('image')->store('public/img/produk');
-        // $data->image = $imagePath;
-        // Produk::create($data);
-        // $data = new Produk;
         $data = $request->validated();
 
-        // $data->id_owner = Auth::user()->id;
-        // $data->id_kategori = $request->input('kategori');
-        // $data->nama_produk = $request->input('nama_produk');
-        // $data->desk_produk = $request->input('desk_produk');
-        // $data->stok_produk = $request->input('stok_produk');
-        // $data->harga_produk = $request->input('harga_produk');
-
-
-        // $imagePath = $data->file('image')->store('public/img/produk');
         if($request->file('gambar_produk')){
             $data['gambar_produk'] = $request->file('gambar_produk')->store('public/img/produk');
         }
 
-
-
-        // $data->gambar_produk = $imagePath;
         $data['slug'] = Str::slug($request->nama_produk);
         Produk::create($data);
         return redirect()->route('home');
@@ -114,6 +96,8 @@ class ProdukController extends Controller
     /**
      * Display the specified resource.
      */
+
+    # Fungsi show digunakan untuk mendapatkan dan menampilkan data produk secara spesifik beserta review dari produk tersebut
     public function show($slug)
     {
         // Temukan produk berdasarkan slug
@@ -132,36 +116,36 @@ class ProdukController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+
+    # Fungsi edit digunakan untuk mendapatkan data produk & kategori dan mengirimkannya ke halaman editproduct sekaligus redirect ke editproduct
     public function edit(Produk $produk)
     {
         $produk = Produk::with('kategori')->find($produk->id);
         $kategori = Kategori::all();
-        return view('editproduct', compact('produk', 'kategori'));
+        return view('owner.editproduct', compact('produk', 'kategori'));
     }
 
     /**
      * Update the specified resource in storage.
      */
+
+    # Fungsi update digunakan untuk menyimpan inputan data produk yang diubah pada halaman editproduct
     public function update(ProdukRequest $request, Produk $produk)
     {
         $data = $request->validated();
         if($request->file('gambar_produk')){
             $data['gambar_produk'] = $request->file('gambar_produk')->store('public/img/produk');
         }
-
-        // $data->gambar_produk = $imagePath;
         $data['slug'] = Str::slug($data['nama_produk']);
         $produk->update($data);
-
-        // $imagePath = $data->file('image')->store('public/img/produk');
-        // $data->image = $imagePath;
-        // $produk->save();
         return redirect()->route('produk.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
+    # Fungsi delete digunakan untuk menghapus produk
     public function destroy(Produk $produk)
     {
         try {
@@ -178,29 +162,20 @@ class ProdukController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil dihapus.');
     }
 
+    # Fungsi list digunakan untuk mendapatkan & menampilkan data produk yang dimiliki oleh owner  
     public function list(Request $request){
         if ($request->has('search')) {
-            // $produk =  Produk::where(['nama_produk','LIKE','%' .$request->search]);
             $produk = Produk::where('nama_produk','LIKE','%' .$request->search. '%')
             ->orWhere('desk_produk','LIKE','%' .$request->search. '%')->with('user')->get();
 
-            // $produk = (array) $produk;
-
-            // $produk = array_filter($produk, function ($prod){
-            //     return $prod['id_owner'] === Auth::user()->id;
-            // });
-            // $produk = (object) $produk;
             $filteredProduk = $produk->filter(function ($prod) {
                 return $prod->user->id === Auth::user()->id;
             });
 
             $produk = $filteredProduk->values();
-
-            // ->paginate(20);
         } else {
             $produk = Produk::where('id_owner', Auth::user()->id)->get();
-            // $produk =  Produk::paginate(20);
         }
-        return view('listproduct',compact(['produk']));
+        return view('owner.listproduct',compact(['produk']));
     }
 }

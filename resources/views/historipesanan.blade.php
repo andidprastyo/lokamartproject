@@ -4,7 +4,7 @@
         <span class="font-bold text-2xl">Histori Pesanan</span>
         <div class="mt-5 relative overflow-x-auto sm:rounded-lg">
             @foreach ($pesanan as $p)
-                <table class="w-7/12 text-sm text-left text-gray-500 dark:text-gray-400">
+                <table class="w-4/5 text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs bg-gray-50  text-gray-700 uppercase dark:text-gray-400">
                         <tr>
                             <th scope="col" class="pl-1 pr-6 py-3">
@@ -13,16 +13,16 @@
                             <th scope="col" class="px-6 py-3">
                                 Nama Produk
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-3 py-3">
                                 Quantity
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Price
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-2 py-3">
                                 Total
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-3 py-3">
                                 Action
                             </th>
                         </tr>
@@ -41,16 +41,16 @@
                                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                                         <div>{{ $dp->produk->nama_produk }}</div>
                                     </td>
-                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                    <td class="px-3 py-4 font-semibold text-gray-900 dark:text-white">
                                         <div>{{ $dp->qty }}</div>
                                     </td>
-                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        {{ $dp->produk->harga_produk }}
+                                    <td class="px-2 py-4 font-semibold text-gray-900 dark:text-white">
+                                        @currency($dp->produk->harga_produk)
                                     </td>
-                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                                        {{ $dp->subtotal }}
+                                    <td class="px-2 py-4 font-semibold text-gray-900 dark:text-white">
+                                        @currency($dp->subtotal)
                                     </td>
-                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                    <td class="px-3 py-4 font-semibold text-gray-900 dark:text-white">
                                         @if($dp->review == 'unreviewed')
                                         <a href="{{ route('review-create',$dp->id) }}">
                                             <button type="button"
@@ -66,10 +66,10 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class=" w-7/12 py-5 flex justify-end border-t-0 border border-black">
+                <div class=" w-4/5 py-5 flex justify-end border-t-0 border border-black mb-10">
                     <div class="px-10 my-auto font-bold">Total Pesanan</div>
-                    <div class="px-10 my-auto font-bold">{{ $p->total }}</div>
-                    <div class="pl-6 pr-2">
+                    <div class="px-10 my-auto font-bold">@currency($p->total)</div>
+                    <div class="pl-6 pr-10">
                         <button id="paybuttontest{{ $p->id }}"
                             class="text-white bg-rose-700 hover:bg-rose-800 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 my-5 mr-2">Checkout</button>
                     </div>

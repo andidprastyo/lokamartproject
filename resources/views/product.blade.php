@@ -24,7 +24,7 @@
             <span class="font-semibold text-lg">Price</span>
         </div>
         <div>
-            <span class="font-bold text-2xl">{{ $produk->harga_produk }}</span>
+            <span class="font-bold text-2xl">@currency($produk->harga_produk)</span>
         </div>
         <div class="w-[23rem]">
             <p class="text-justify">{{ $produk->desk_produk }}</p>

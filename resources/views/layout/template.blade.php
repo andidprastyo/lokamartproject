@@ -120,13 +120,15 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="{{ route('owner') }}">Owner UMKM</a>
     </div>
+    @if(auth()->check() && auth()->user()->role == 'owner')
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="{{ route('list') }}">Seller Centre</a>
     </div>
+    @endif
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="">Terms & Conditions</a>
     </div>
-    @if(auth()->user()->role == 'admin')
+    @if(auth()->check() && auth()->user()->role == 'admin')
     <div class="ml-9 text-xl hover:underline" style="color: #00a8c8">
       <a href="{{route('adminuser')}}">Dashboard Admin</a>
     </div>
@@ -246,7 +248,7 @@ data-client-key="{{config('midtrans.client_key')}}"></script>
                 <a href="">
                     <div class="flex mt-5 underline">
                         <img src="{{asset('img/vector.svg')}}" class="w-8 h-8" alt="">
-                        <p class="ml-5 mt-1 text-lg">https://github.com/andidprastyo</p>
+                        <p class="ml-5 mt-1 text-lg">https://github.com/Fthnn</p>
                     </div>
                 </a>
             </div>

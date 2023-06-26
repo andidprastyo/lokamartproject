@@ -26,10 +26,10 @@ Route::get('/', [ProdukController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'role:admin'], function () {
 Route::get('/admin', [AdminController::class,'index'])->name('admin');
-Route::get('/admincus', [AdminController::class,'customer'])->name('adminuser');
 Route::get('/admincus-search', [AdminController::class,'searchUser']);
 Route::get('/adminow', [AdminController::class,'owner'])->name('adminowner');
 Route::get('/adminow-search', [AdminController::class,'searchOwner']);
+Route::get('/admincus', [AdminController::class,'customer'])->name('adminuser');
 });
 
 // Route::group(['middleware' => 'role:owner|user'], function () {

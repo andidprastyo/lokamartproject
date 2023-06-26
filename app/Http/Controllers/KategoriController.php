@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
-use App\Models\Produk;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
@@ -11,6 +10,8 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    # Fungsi index digunakan untuk mendapatkan data kategori lalu ditampilkan ke halaman addproduct
     public function index()
     {
         $kategori = Kategori::all();

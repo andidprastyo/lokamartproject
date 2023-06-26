@@ -11,6 +11,8 @@ class LoginController extends Controller
     /**
      * Handle an authentication attempt.
      */   
+
+    # Fungsi login digunakan untuk memvalidasi email dan password yang digunakan oleh user untuk login dan mendapat session
     public function login(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
@@ -33,6 +35,7 @@ class LoginController extends Controller
         ])->onlyInput('email');
     }
 
+    # Fungsi logout digunakan untuk mengakhiri session sehingga user terlogout
     public function logout(Request $request): RedirectResponse
     { 
         request()->session()->invalidate();

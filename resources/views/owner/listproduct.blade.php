@@ -115,7 +115,7 @@
                         {{ $product->stok_produk }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ $product->harga_produk }}
+                        @currency($product->harga_produk)
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex">

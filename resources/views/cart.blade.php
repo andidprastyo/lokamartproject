@@ -71,10 +71,10 @@
                                                     {{ $owner[$loop->iteration - 1]->name }}</span>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white"
-                                            id="price{{ $dp->id }}">
-                                            {{ $dp->produk->harga_produk }}
+                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                                            @currency($dp->produk->harga_produk)
                                         </td>
+                                        <input type="hidden" id="price{{ $dp->id }}" value="{{$dp->produk->harga_produk}}">
 
                                         {{-- input qty start --}}
 
@@ -83,15 +83,15 @@
                                                 <div>
                                                     <input type="number" id="qtyInput{{ $dp->id }}"
                                                         class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="1" required min="1" max="1000"
+                                                        placeholder="1" required min="1" max="{{$dp->produk->stok_produk}}"
                                                         onchange="changeQty ({{ $dp->id }})">
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white subtotal"
-                                            id="subtotal{{ $dp->id }}">
-                                            {{ $dp->subtotal }}
+                                        <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white subtotal" id="showsubtotal{{ $dp->id }}">
+                                            @currency($dp->subtotal)
                                         </td>
+                                        <input type="hidden" name="" id="subtotal{{ $dp->id }}" value="{{$dp->subtotal}}">
                                         <input type="hidden" name="" id="subtotinput{{$dp->id}}">
 
 
@@ -197,7 +197,7 @@
                             </div>
                             <div class="flex-col w-fit mr-20">
                                 <div class="text-center text-green-500 text-2xl" id="sum-tot">
-                                    {{ $pesanan->total }}
+                                    @currency($pesanan->total)
                                 </div>
                                 <div>
                                     Total Pembayaran
@@ -216,55 +216,54 @@
     </div>
     @endif
 </div>
-    
-    {{-- <script>
-        // function changeQty(id){
-            //     let qty = document.getElementById('qty'+ id);
-            //     qty.text
-            
-            // }
-            $(document).ready(function() {
-                // Menangkap perubahan pada elemen quantity
-                $('#qtyInput${id}').on('change', function() {
-                    // Mendapatkan nilai quantity yang baru
-                    var newQuantity = parseInt($(this).val());
-                    
-            // Menggunakan nilai quantity yang baru sesuai kebutuhan, misalnya:
-            // Menampilkan nilai quantity di console
-            console.log(newQuantity);
-            
-            // Mengirim nilai quantity yang baru ke server melalui permintaan AJAX
-            // atau mengupdate nilai quantity pada elemen lain di tampilan
-        });
-    });
-</script> --}}
 
 <script>
     function changeQty(id) {
 
-        let qtyinput = document.getElementById(`qtyInput${id}`)
+        let qtyinput = document.getElementById(`qtyInput${id}`).value
+        let showsubtotal = document.getElementById(`showsubtotal${id}`)
         let subtotal = document.getElementById(`subtotal${id}`)
-        let price = document.getElementById(`price${id}`)
+        let price = document.getElementById(`price${id}`).value
         let subtotinput = document.getElementById(`subtotinput${id}`)
         let sum_tot = document.getElementById(`sum-tot`)
         var hiddenInput = document.getElementById(`qtyHidden${id}`);
+
+        let formatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        });
         
         console.log(hiddenInput);
-        hiddenInput.value = qtyinput.value;
+        hiddenInput.value = qtyinput;
 
-        subtotal.innerHTML = parseFloat(qtyinput.value) * parseFloat(price.innerHTML)
-        subtotinput.value = subtotal.innerHTML
+        console.log(price);
+        subtotal = qtyinput * price;
+        console.log(subtotal);
+        showsubtotal.innerHTML = formatter.format(subtotal);
+        subtotinput.value = subtotal
+        // subtotal.innerHTML = formatter.format(subtotal.innerHTML)
         
-        
-        let total_all = document.querySelectorAll('.subtotal')
-        
-        total_all = [...total_all]
-        
-        total_all = total_all.map(element => parseFloat(element.innerHTML))
+        let total_all = document.querySelectorAll('.subtotal');
+        console.log(total_all);
+        let subtotalValues = [];
 
-        total_all = total_all.reduce((total, each) => total + each)
-        console.log(total_all)
-        sum_tot.innerHTML = total_all
+        total_all.forEach(element => {
+        let subtotalValue = parseFloat(element.innerHTML.replace(/[^\d]/g, ''));
+        subtotalValues.push(subtotalValue / 100);
+        });
+
+        console.log(subtotalValues);
+        let totalSum = subtotalValues.reduce((total, each) => total + each);
+        sum_tot.innerHTML = formatter.format(totalSum);
+        // let total_all = unformattedSubtotal
+        
+        // total_all = [...total_all]
+        
+        // total_all = total_all.map(element => parseFloat(element.innerHTML))
+
+        // total_all = total_all.reduce((total, each) => total + each)
+        // console.log(total_all)
+        // sum_tot.innerHTML = total_all
     }
 </script>
 
